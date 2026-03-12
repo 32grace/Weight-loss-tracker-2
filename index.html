@@ -1,0 +1,639 @@
+import { useState, useEffect, useCallback } from "react";
+
+const STORAGE_KEY = "weight-tracker-data";
+
+const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+function getWeekKey(date) {
+  const d = new Date(date);
+  const day = d.getDay();
+  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+  const monday = new Date(d.setDate(diff));
+  return monday.toISOString().split("T")[0];
+}
+
+function formatWeekLabel(weekKey) {
+  const start = new Date(weekKey);
+  const end = new Date(weekKey);
+  end.setDate(end.getDate() + 6);
+  const opts = { day: "numeric", month: "short" };
+  return `${start.toLocaleDateString("en-GB", opts)} – ${end.toLocaleDateString("en-GB", opts)}`;
+}
+
+function getWeekDates(weekKey) {
+  return Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(weekKey);
+    d.setDate(d.getDate() + i);
+    return d.toISOString().split("T")[0];
+  });
+}
+
+function getCurrentWeekKey() {
+  return getWeekKey(new Date());
+}
+
+const emptyDay = () => ({ eaten: "", burned: "" });
+
+export default function App() {
+  const [weeks, setWeeks] = useState({});
+  const [activeWeek, setActiveWeek] = useState(getCurrentWeekKey());
+  const [loaded, setLoaded] = useState(false);
+  const [savedFlash, setSavedFlash] = useState(false);
+
+  // Load from storage
+  useEffect(() => {
+    async function load() {
+      try {
+        const result = await window.storage.get(STORAGE_KEY);
+        if (result?.value) {
+          setWeeks(JSON.parse(result.value));
+        }
+      } catch {}
+      setLoaded(true);
+    }
+    load();
+  }, []);
+
+  // Save to storage whenever weeks changes (after load)
+  useEffect(() => {
+    if (!loaded) return;
+    async function save() {
+      try {
+        await window.storage.set(STORAGE_KEY, JSON.stringify(weeks));
+        setSavedFlash(true);
+        setTimeout(() => setSavedFlash(false), 1500);
+      } catch {}
+    }
+    save();
+  }, [weeks, loaded]);
+
+  const ensureWeek = useCallback((wk) => {
+    setWeeks((prev) => {
+      if (prev[wk]) return prev;
+      const dates = getWeekDates(wk);
+      const days = {};
+      dates.forEach((d) => (days[d] = emptyDay()));
+      return { ...prev, [wk]: days };
+    });
+  }, []);
+
+  useEffect(() => {
+    ensureWeek(activeWeek);
+  }, [activeWeek, ensureWeek]);
+
+  const handleInput = (date, field, value) => {
+    setWeeks((prev) => ({
+      ...prev,
+      [activeWeek]: {
+        ...prev[activeWeek],
+        [date]: {
+          ...prev[activeWeek]?.[date],
+          [field]: value,
+        },
+      },
+    }));
+  };
+
+  const addWeek = (offset) => {
+    const base = new Date(activeWeek);
+    base.setDate(base.getDate() + offset * 7);
+    const wk = getWeekKey(base);
+    ensureWeek(wk);
+    setActiveWeek(wk);
+  };
+
+  // Calculations
+  const weekDates = getWeekDates(activeWeek);
+  const currentDayData = weeks[activeWeek] || {};
+
+  const weeklyRows = weekDates.map((date, i) => {
+    const d = currentDayData[date] || emptyDay();
+    const eaten = parseFloat(d.eaten) || 0;
+    const burned = parseFloat(d.burned) || 0;
+    const net = burned - eaten; // positive = deficit
+    return { date, day: DAYS[i], eaten, burned, net };
+  });
+
+  const weekTotalEaten = weeklyRows.reduce((s, r) => s + r.eaten, 0);
+  const weekTotalBurned = weeklyRows.reduce((s, r) => s + r.burned, 0);
+  const weekNet = weekTotalBurned - weekTotalEaten;
+  const weekWeightLoss = weekNet * 0.00013;
+
+  // All-time totals
+  const allWeeks = Object.keys(weeks).sort();
+  let allTimeNet = 0;
+  allWeeks.forEach((wk) => {
+    const wd = weeks[wk] || {};
+    Object.values(wd).forEach((d) => {
+      const eaten = parseFloat(d.eaten) || 0;
+      const burned = parseFloat(d.burned) || 0;
+      allTimeNet += burned - eaten;
+    });
+  });
+  const allTimeWeightLoss = allTimeNet * 0.00013;
+
+  const sortedWeekSummaries = allWeeks.map((wk) => {
+    const wd = weeks[wk] || {};
+    let e = 0,
+      b = 0;
+    Object.values(wd).forEach((d) => {
+      e += parseFloat(d.eaten) || 0;
+      b += parseFloat(d.burned) || 0;
+    });
+    return { wk, net: b - e, loss: (b - e) * 0.00013 };
+  });
+
+  return (
+    <div style={styles.root}>
+      <div style={styles.grain} />
+
+      {/* Header */}
+      <header style={styles.header}>
+        <div style={styles.logoMark}>⬡</div>
+        <div>
+          <h1 style={styles.title}>DEFICIT</h1>
+          <p style={styles.subtitle}>Weight Loss Tracker</p>
+        </div>
+        {savedFlash && <div style={styles.savedBadge}>✓ Saved</div>}
+      </header>
+
+      <div style={styles.layout}>
+        {/* Left panel: weekly input */}
+        <div style={styles.mainPanel}>
+          {/* Week nav */}
+          <div style={styles.weekNav}>
+            <button style={styles.navBtn} onClick={() => addWeek(-1)}>← Prev</button>
+            <div style={styles.weekLabel}>
+              <span style={styles.weekTag}>WEEK</span>
+              <span style={styles.weekDate}>{formatWeekLabel(activeWeek)}</span>
+              {activeWeek === getCurrentWeekKey() && (
+                <span style={styles.currentBadge}>Current</span>
+              )}
+            </div>
+            <button style={styles.navBtn} onClick={() => addWeek(1)}>Next →</button>
+          </div>
+
+          {/* Table */}
+          <div style={styles.tableWrap}>
+            <table style={styles.table}>
+              <thead>
+                <tr>
+                  <th style={{ ...styles.th, width: 60 }}>Day</th>
+                  <th style={styles.th}>🍽 Calories Eaten</th>
+                  <th style={styles.th}>🔥 Calories Burned</th>
+                  <th style={styles.th}>Net</th>
+                </tr>
+              </thead>
+              <tbody>
+                {weeklyRows.map((row) => (
+                  <tr key={row.date} style={styles.tr}>
+                    <td style={styles.dayCell}>{row.day}</td>
+                    <td style={styles.td}>
+                      <input
+                        type="number"
+                        min="0"
+                        placeholder="0"
+                        value={currentDayData[row.date]?.eaten ?? ""}
+                        onChange={(e) => handleInput(row.date, "eaten", e.target.value)}
+                        style={styles.input}
+                      />
+                    </td>
+                    <td style={styles.td}>
+                      <input
+                        type="number"
+                        min="0"
+                        placeholder="0"
+                        value={currentDayData[row.date]?.burned ?? ""}
+                        onChange={(e) => handleInput(row.date, "burned", e.target.value)}
+                        style={styles.input}
+                      />
+                    </td>
+                    <td style={{ ...styles.td, ...netStyle(row.net) }}>
+                      {row.net !== 0
+                        ? `${row.net > 0 ? "+" : ""}${row.net.toFixed(0)} kcal`
+                        : "—"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Week summary cards */}
+          <div style={styles.cards}>
+            <SummaryCard
+              label="Total Eaten"
+              value={`${weekTotalEaten.toFixed(0)} kcal`}
+              accent="#e07b5a"
+            />
+            <SummaryCard
+              label="Total Burned"
+              value={`${weekTotalBurned.toFixed(0)} kcal`}
+              accent="#5ab8e0"
+            />
+            <SummaryCard
+              label="Weekly Net"
+              value={`${weekNet > 0 ? "+" : ""}${weekNet.toFixed(0)} kcal`}
+              sub={weekNet > 0 ? "deficit" : weekNet < 0 ? "surplus" : "balanced"}
+              accent={weekNet >= 0 ? "#7ce08a" : "#e07b7b"}
+              highlight
+            />
+            <SummaryCard
+              label="Est. Loss This Week"
+              value={`${weekWeightLoss >= 0 ? "" : "+"}${Math.abs(weekWeightLoss).toFixed(3)} kg`}
+              sub={weekWeightLoss >= 0 ? "lost" : "gained"}
+              accent={weekWeightLoss >= 0 ? "#7ce08a" : "#e07b7b"}
+            />
+          </div>
+        </div>
+
+        {/* Right panel: all-time summary */}
+        <div style={styles.sidePanel}>
+          <h2 style={styles.sideTitle}>All-Time Progress</h2>
+
+          <div style={styles.bigStat}>
+            <div style={styles.bigNum}>
+              {Math.abs(allTimeWeightLoss).toFixed(2)}
+              <span style={styles.bigUnit}>kg</span>
+            </div>
+            <div style={styles.bigLabel}>
+              {allTimeWeightLoss >= 0 ? "total lost" : "total gained"}
+            </div>
+          </div>
+
+          <div style={styles.allTimeCards}>
+            <MiniCard label="Total Deficit" value={`${allTimeNet.toFixed(0)} kcal`} />
+          </div>
+
+          <h3 style={styles.weeksTitle}>Week by Week</h3>
+          <div style={styles.weekList}>
+            {sortedWeekSummaries.length === 0 && (
+              <p style={styles.empty}>No data yet</p>
+            )}
+            {sortedWeekSummaries.map(({ wk, net, loss }) => (
+              <div
+                key={wk}
+                style={{
+                  ...styles.weekRow,
+                  ...(wk === activeWeek ? styles.weekRowActive : {}),
+                }}
+                onClick={() => setActiveWeek(wk)}
+              >
+                <div>
+                  <div style={styles.weekRowLabel}>{formatWeekLabel(wk)}</div>
+                  <div style={{ ...styles.weekRowNet, color: net >= 0 ? "#7ce08a" : "#e07b7b" }}>
+                    {net >= 0 ? "+" : ""}{net.toFixed(0)} kcal
+                  </div>
+                </div>
+                <div style={{ ...styles.weekRowLoss, color: loss >= 0 ? "#7ce08a" : "#e07b7b" }}>
+                  {loss >= 0 ? "-" : "+"}{Math.abs(loss).toFixed(3)} kg
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SummaryCard({ label, value, sub, accent, highlight }) {
+  return (
+    <div style={{ ...styles.card, ...(highlight ? { border: `1px solid ${accent}44` } : {}) }}>
+      <div style={{ ...styles.cardAccent, background: accent }} />
+      <div style={styles.cardLabel}>{label}</div>
+      <div style={{ ...styles.cardValue, color: accent }}>{value}</div>
+      {sub && <div style={styles.cardSub}>{sub}</div>}
+    </div>
+  );
+}
+
+function MiniCard({ label, value }) {
+  return (
+    <div style={styles.miniCard}>
+      <div style={styles.miniLabel}>{label}</div>
+      <div style={styles.miniValue}>{value}</div>
+    </div>
+  );
+}
+
+function netStyle(net) {
+  if (net > 0) return { color: "#7ce08a", fontWeight: 600 };
+  if (net < 0) return { color: "#e07b7b", fontWeight: 600 };
+  return { color: "#666" };
+}
+
+const styles = {
+  root: {
+    minHeight: "100vh",
+    background: "#0d0d0f",
+    color: "#e8e4dc",
+    fontFamily: "'DM Mono', 'Courier New', monospace",
+    position: "relative",
+    overflow: "hidden",
+  },
+  grain: {
+    position: "fixed",
+    inset: 0,
+    backgroundImage:
+      "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E\")",
+    pointerEvents: "none",
+    zIndex: 0,
+  },
+  header: {
+    display: "flex",
+    alignItems: "center",
+    gap: 16,
+    padding: "28px 32px 20px",
+    borderBottom: "1px solid #1e1e22",
+    position: "relative",
+    zIndex: 1,
+  },
+  logoMark: {
+    fontSize: 32,
+    color: "#7ce08a",
+    lineHeight: 1,
+  },
+  title: {
+    margin: 0,
+    fontSize: 22,
+    fontWeight: 700,
+    letterSpacing: "0.2em",
+    color: "#f0ece4",
+  },
+  subtitle: {
+    margin: 0,
+    fontSize: 11,
+    letterSpacing: "0.15em",
+    color: "#666",
+    textTransform: "uppercase",
+  },
+  savedBadge: {
+    marginLeft: "auto",
+    background: "#7ce08a22",
+    color: "#7ce08a",
+    border: "1px solid #7ce08a44",
+    borderRadius: 6,
+    padding: "4px 12px",
+    fontSize: 12,
+    letterSpacing: "0.1em",
+  },
+  layout: {
+    display: "flex",
+    gap: 0,
+    minHeight: "calc(100vh - 90px)",
+    position: "relative",
+    zIndex: 1,
+  },
+  mainPanel: {
+    flex: 1,
+    padding: "28px 32px",
+    borderRight: "1px solid #1e1e22",
+  },
+  weekNav: {
+    display: "flex",
+    alignItems: "center",
+    gap: 16,
+    marginBottom: 24,
+  },
+  navBtn: {
+    background: "#1a1a1e",
+    border: "1px solid #2a2a2e",
+    color: "#a0a0a8",
+    padding: "8px 16px",
+    borderRadius: 8,
+    cursor: "pointer",
+    fontSize: 12,
+    letterSpacing: "0.05em",
+    fontFamily: "inherit",
+    transition: "all 0.15s",
+  },
+  weekLabel: {
+    flex: 1,
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
+  },
+  weekTag: {
+    fontSize: 10,
+    letterSpacing: "0.2em",
+    color: "#555",
+    background: "#1a1a1e",
+    padding: "3px 8px",
+    borderRadius: 4,
+  },
+  weekDate: {
+    fontSize: 14,
+    color: "#c8c4bc",
+    fontWeight: 600,
+  },
+  currentBadge: {
+    fontSize: 10,
+    background: "#7ce08a22",
+    color: "#7ce08a",
+    border: "1px solid #7ce08a33",
+    padding: "2px 8px",
+    borderRadius: 20,
+    letterSpacing: "0.1em",
+  },
+  tableWrap: {
+    overflowX: "auto",
+    borderRadius: 12,
+    border: "1px solid #1e1e22",
+    marginBottom: 24,
+  },
+  table: {
+    width: "100%",
+    borderCollapse: "collapse",
+    fontSize: 13,
+  },
+  th: {
+    padding: "12px 16px",
+    textAlign: "left",
+    fontSize: 10,
+    letterSpacing: "0.15em",
+    color: "#666",
+    textTransform: "uppercase",
+    background: "#111114",
+    borderBottom: "1px solid #1e1e22",
+  },
+  tr: {
+    borderBottom: "1px solid #16161a",
+  },
+  dayCell: {
+    padding: "10px 16px",
+    fontSize: 11,
+    fontWeight: 700,
+    letterSpacing: "0.12em",
+    color: "#888",
+  },
+  td: {
+    padding: "6px 12px",
+    color: "#c8c4bc",
+  },
+  input: {
+    background: "#16161a",
+    border: "1px solid #2a2a2e",
+    borderRadius: 7,
+    color: "#e8e4dc",
+    fontFamily: "inherit",
+    fontSize: 13,
+    padding: "7px 12px",
+    width: 120,
+    outline: "none",
+    transition: "border-color 0.15s",
+  },
+  cards: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
+    gap: 12,
+  },
+  card: {
+    background: "#111114",
+    border: "1px solid #1e1e22",
+    borderRadius: 12,
+    padding: "16px 18px",
+    position: "relative",
+    overflow: "hidden",
+  },
+  cardAccent: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 2,
+    borderRadius: "12px 12px 0 0",
+    opacity: 0.7,
+  },
+  cardLabel: {
+    fontSize: 10,
+    letterSpacing: "0.15em",
+    color: "#666",
+    textTransform: "uppercase",
+    marginBottom: 6,
+  },
+  cardValue: {
+    fontSize: 20,
+    fontWeight: 700,
+    letterSpacing: "-0.01em",
+  },
+  cardSub: {
+    fontSize: 10,
+    color: "#666",
+    marginTop: 2,
+    letterSpacing: "0.1em",
+    textTransform: "uppercase",
+  },
+  sidePanel: {
+    width: 300,
+    padding: "28px 24px",
+    background: "#0a0a0c",
+  },
+  sideTitle: {
+    margin: "0 0 20px",
+    fontSize: 11,
+    letterSpacing: "0.2em",
+    textTransform: "uppercase",
+    color: "#666",
+    fontWeight: 600,
+  },
+  bigStat: {
+    background: "#111114",
+    border: "1px solid #1e1e22",
+    borderRadius: 14,
+    padding: "24px",
+    textAlign: "center",
+    marginBottom: 16,
+  },
+  bigNum: {
+    fontSize: 48,
+    fontWeight: 800,
+    color: "#7ce08a",
+    letterSpacing: "-0.03em",
+    lineHeight: 1,
+  },
+  bigUnit: {
+    fontSize: 22,
+    marginLeft: 4,
+    opacity: 0.7,
+  },
+  bigLabel: {
+    fontSize: 11,
+    letterSpacing: "0.15em",
+    textTransform: "uppercase",
+    color: "#666",
+    marginTop: 6,
+  },
+  allTimeCards: {
+    marginBottom: 24,
+  },
+  miniCard: {
+    background: "#111114",
+    border: "1px solid #1e1e22",
+    borderRadius: 10,
+    padding: "12px 16px",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  miniLabel: {
+    fontSize: 11,
+    color: "#666",
+    letterSpacing: "0.1em",
+    textTransform: "uppercase",
+  },
+  miniValue: {
+    fontSize: 13,
+    fontWeight: 700,
+    color: "#c8c4bc",
+  },
+  weeksTitle: {
+    fontSize: 10,
+    letterSpacing: "0.2em",
+    textTransform: "uppercase",
+    color: "#555",
+    margin: "0 0 10px",
+    fontWeight: 600,
+  },
+  weekList: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 6,
+    maxHeight: "40vh",
+    overflowY: "auto",
+  },
+  weekRow: {
+    background: "#111114",
+    border: "1px solid #1e1e22",
+    borderRadius: 9,
+    padding: "10px 14px",
+    cursor: "pointer",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    transition: "border-color 0.15s",
+  },
+  weekRowActive: {
+    borderColor: "#7ce08a55",
+    background: "#0f1a10",
+  },
+  weekRowLabel: {
+    fontSize: 11,
+    color: "#a0a0a8",
+    marginBottom: 2,
+  },
+  weekRowNet: {
+    fontSize: 12,
+    fontWeight: 700,
+  },
+  weekRowLoss: {
+    fontSize: 14,
+    fontWeight: 800,
+  },
+  empty: {
+    color: "#444",
+    fontSize: 12,
+    textAlign: "center",
+    padding: "20px 0",
+  },
+};

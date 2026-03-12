@@ -1,639 +1,629 @@
-import { useState, useEffect, useCallback } from "react";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Deficit" />
+  <meta name="theme-color" content="#0d0d0f" />
+  <title>DEFICIT — Weight Loss Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-const STORAGE_KEY = "weight-tracker-data";
-
-const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
-function getWeekKey(date) {
-  const d = new Date(date);
-  const day = d.getDay();
-  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-  const monday = new Date(d.setDate(diff));
-  return monday.toISOString().split("T")[0];
-}
-
-function formatWeekLabel(weekKey) {
-  const start = new Date(weekKey);
-  const end = new Date(weekKey);
-  end.setDate(end.getDate() + 6);
-  const opts = { day: "numeric", month: "short" };
-  return `${start.toLocaleDateString("en-GB", opts)} – ${end.toLocaleDateString("en-GB", opts)}`;
-}
-
-function getWeekDates(weekKey) {
-  return Array.from({ length: 7 }, (_, i) => {
-    const d = new Date(weekKey);
-    d.setDate(d.getDate() + i);
-    return d.toISOString().split("T")[0];
-  });
-}
-
-function getCurrentWeekKey() {
-  return getWeekKey(new Date());
-}
-
-const emptyDay = () => ({ eaten: "", burned: "" });
-
-export default function App() {
-  const [weeks, setWeeks] = useState({});
-  const [activeWeek, setActiveWeek] = useState(getCurrentWeekKey());
-  const [loaded, setLoaded] = useState(false);
-  const [savedFlash, setSavedFlash] = useState(false);
-
-  // Load from storage
-  useEffect(() => {
-    async function load() {
-      try {
-        const result = await window.storage.get(STORAGE_KEY);
-        if (result?.value) {
-          setWeeks(JSON.parse(result.value));
-        }
-      } catch {}
-      setLoaded(true);
+    :root {
+      --bg: #0d0d0f;
+      --bg2: #111114;
+      --bg3: #0a0a0c;
+      --border: #1e1e22;
+      --border2: #2a2a2e;
+      --text: #e8e4dc;
+      --text2: #c8c4bc;
+      --muted: #888;
+      --muted2: #555;
+      --green: #7ce08a;
+      --red: #e07b7b;
+      --orange: #e07b5a;
+      --blue: #5ab8e0;
+      --mono: 'DM Mono', 'Courier New', monospace;
+      --sans: 'Space Grotesk', sans-serif;
     }
-    load();
-  }, []);
 
-  // Save to storage whenever weeks changes (after load)
-  useEffect(() => {
-    if (!loaded) return;
-    async function save() {
-      try {
-        await window.storage.set(STORAGE_KEY, JSON.stringify(weeks));
-        setSavedFlash(true);
-        setTimeout(() => setSavedFlash(false), 1500);
-      } catch {}
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--mono);
+      min-height: 100vh;
+      overflow-x: hidden;
     }
-    save();
-  }, [weeks, loaded]);
 
-  const ensureWeek = useCallback((wk) => {
-    setWeeks((prev) => {
-      if (prev[wk]) return prev;
-      const dates = getWeekDates(wk);
-      const days = {};
-      dates.forEach((d) => (days[d] = emptyDay()));
-      return { ...prev, [wk]: days };
+    /* ── HEADER ── */
+    header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 20px 20px 16px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 100;
+    }
+    .logo { font-size: 28px; color: var(--green); line-height: 1; }
+    .header-text h1 {
+      font-family: var(--sans);
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      color: #f0ece4;
+    }
+    .header-text p {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .saved-badge {
+      margin-left: auto;
+      background: #7ce08a22;
+      color: var(--green);
+      border: 1px solid #7ce08a44;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .saved-badge.show { opacity: 1; }
+
+    /* ── TABS ── */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      position: sticky;
+      top: 73px;
+      z-index: 99;
+    }
+    .tab {
+      flex: 1;
+      padding: 12px;
+      text-align: center;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-family: var(--mono);
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+    }
+    .tab.active {
+      color: var(--green);
+      border-bottom-color: var(--green);
+    }
+
+    /* ── MAIN CONTENT ── */
+    .page { display: none; padding: 20px; }
+    .page.active { display: block; }
+
+    /* ── WEEK NAV ── */
+    .week-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    .nav-btn {
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      color: var(--muted);
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      font-family: var(--mono);
+      flex-shrink: 0;
+      touch-action: manipulation;
+    }
+    .week-info { flex: 1; text-align: center; }
+    .week-tag {
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--muted2);
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .week-date {
+      font-size: 13px;
+      color: var(--text2);
+      font-weight: 500;
+    }
+    .current-pill {
+      display: inline-block;
+      font-size: 9px;
+      background: #7ce08a22;
+      color: var(--green);
+      border: 1px solid #7ce08a33;
+      padding: 2px 7px;
+      border-radius: 20px;
+      letter-spacing: 0.1em;
+      margin-left: 6px;
+    }
+
+    /* ── DAY CARDS ── */
+    .day-cards { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+    .day-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+    }
+    .day-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .day-name {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .day-net {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted2);
+    }
+    .day-net.positive { color: var(--green); }
+    .day-net.negative { color: var(--red); }
+    .day-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .input-group label {
+      display: block;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      color: var(--muted2);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .input-group input {
+      width: 100%;
+      background: #16161a;
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 15px;
+      padding: 10px 12px;
+      outline: none;
+      -webkit-appearance: none;
+      transition: border-color 0.15s;
+    }
+    .input-group input:focus { border-color: #7ce08a55; }
+
+    /* ── SUMMARY CARDS ── */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .summary-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .summary-card .accent-bar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      border-radius: 12px 12px 0 0;
+      opacity: 0.8;
+    }
+    .summary-card .s-label {
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .summary-card .s-value {
+      font-family: var(--sans);
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .summary-card .s-sub {
+      font-size: 9px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    /* ── ALL TIME PAGE ── */
+    .big-stat {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .big-num {
+      font-family: var(--sans);
+      font-size: 56px;
+      font-weight: 800;
+      color: var(--green);
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    .big-unit { font-size: 24px; opacity: 0.7; margin-left: 4px; }
+    .big-label {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+    .mini-stat {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .mini-stat .ml { font-size: 11px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+    .mini-stat .mv { font-size: 14px; font-weight: 700; color: var(--text2); font-family: var(--sans); }
+
+    .section-title {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted2);
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .week-history { display: flex; flex-direction: column; gap: 8px; }
+    .week-history-row {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      touch-action: manipulation;
+      transition: border-color 0.15s;
+    }
+    .week-history-row.active {
+      border-color: #7ce08a55;
+      background: #0f1a10;
+    }
+    .whr-label { font-size: 12px; color: var(--muted); margin-bottom: 2px; }
+    .whr-net { font-size: 12px; font-weight: 700; }
+    .whr-loss { font-family: var(--sans); font-size: 15px; font-weight: 800; }
+
+    .empty-state {
+      text-align: center;
+      color: var(--muted2);
+      font-size: 13px;
+      padding: 40px 0;
+    }
+
+    /* ── SAFE AREA for notched phones ── */
+    .page { padding-bottom: calc(20px + env(safe-area-inset-bottom)); }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">⬡</div>
+  <div class="header-text">
+    <h1>DEFICIT</h1>
+    <p>Weight Loss Tracker</p>
+  </div>
+  <div class="saved-badge" id="savedBadge">✓ Saved</div>
+</header>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('weekly')">📅 Weekly</button>
+  <button class="tab" onclick="switchTab('alltime')">📊 All-Time</button>
+</div>
+
+<!-- WEEKLY TAB -->
+<div class="page active" id="page-weekly">
+  <div class="week-nav">
+    <button class="nav-btn" onclick="changeWeek(-1)">←</button>
+    <div class="week-info">
+      <span class="week-tag">Week</span>
+      <span class="week-date" id="weekLabel">—</span>
+      <span class="current-pill" id="currentPill" style="display:none">Now</span>
+    </div>
+    <button class="nav-btn" onclick="changeWeek(1)">→</button>
+  </div>
+
+  <div class="day-cards" id="dayCards"></div>
+
+  <div class="summary-grid" id="summaryGrid"></div>
+</div>
+
+<!-- ALL TIME TAB -->
+<div class="page" id="page-alltime">
+  <div class="big-stat">
+    <div class="big-num" id="allTimeKg">0.00<span class="big-unit">kg</span></div>
+    <div class="big-label" id="allTimeLabel">total lost</div>
+  </div>
+  <div class="mini-stat">
+    <span class="ml">Total Deficit</span>
+    <span class="mv" id="allTimeNet">0 kcal</span>
+  </div>
+  <p class="section-title">Week by Week</p>
+  <div class="week-history" id="weekHistory"></div>
+</div>
+
+<script>
+  const STORAGE_KEY = 'deficit-tracker-v1';
+  const DAYS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+
+  let state = { weeks: {}, activeWeek: getWeekKey(new Date()) };
+
+  // ── UTILS ──
+  function getWeekKey(date) {
+    const d = new Date(date);
+    const day = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+    d.setDate(diff);
+    return d.toISOString().split('T')[0];
+  }
+
+  function getWeekDates(wk) {
+    return Array.from({length:7}, (_,i) => {
+      const d = new Date(wk);
+      d.setDate(d.getDate() + i);
+      return d.toISOString().split('T')[0];
     });
-  }, []);
+  }
 
-  useEffect(() => {
-    ensureWeek(activeWeek);
-  }, [activeWeek, ensureWeek]);
+  function formatWeekLabel(wk) {
+    const start = new Date(wk);
+    const end = new Date(wk);
+    end.setDate(end.getDate() + 6);
+    const o = {day:'numeric', month:'short'};
+    return `${start.toLocaleDateString('en-GB',o)} – ${end.toLocaleDateString('en-GB',o)}`;
+  }
 
-  const handleInput = (date, field, value) => {
-    setWeeks((prev) => ({
-      ...prev,
-      [activeWeek]: {
-        ...prev[activeWeek],
-        [date]: {
-          ...prev[activeWeek]?.[date],
-          [field]: value,
-        },
-      },
-    }));
-  };
+  function getCurrentWeekKey() { return getWeekKey(new Date()); }
 
-  const addWeek = (offset) => {
-    const base = new Date(activeWeek);
+  function ensureWeek(wk) {
+    if (!state.weeks[wk]) {
+      state.weeks[wk] = {};
+      getWeekDates(wk).forEach(d => { state.weeks[wk][d] = {eaten:'', burned:''}; });
+    }
+  }
+
+  // ── STORAGE ──
+  function save() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.weeks));
+      const badge = document.getElementById('savedBadge');
+      badge.classList.add('show');
+      setTimeout(() => badge.classList.remove('show'), 1500);
+    } catch(e) {}
+  }
+
+  function load() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) state.weeks = JSON.parse(raw);
+    } catch(e) {}
+    ensureWeek(state.activeWeek);
+    render();
+  }
+
+  // ── WEEK CHANGE ──
+  function changeWeek(offset) {
+    const base = new Date(state.activeWeek);
     base.setDate(base.getDate() + offset * 7);
-    const wk = getWeekKey(base);
+    state.activeWeek = getWeekKey(base);
+    ensureWeek(state.activeWeek);
+    render();
+  }
+
+  function jumpToWeek(wk) {
+    state.activeWeek = wk;
     ensureWeek(wk);
-    setActiveWeek(wk);
-  };
+    switchTab('weekly');
+    render();
+  }
 
-  // Calculations
-  const weekDates = getWeekDates(activeWeek);
-  const currentDayData = weeks[activeWeek] || {};
+  // ── INPUT HANDLER ──
+  function handleInput(date, field, value) {
+    state.weeks[state.activeWeek][date][field] = value;
+    renderSummary();
+    save();
+  }
 
-  const weeklyRows = weekDates.map((date, i) => {
-    const d = currentDayData[date] || emptyDay();
-    const eaten = parseFloat(d.eaten) || 0;
-    const burned = parseFloat(d.burned) || 0;
-    const net = burned - eaten; // positive = deficit
-    return { date, day: DAYS[i], eaten, burned, net };
-  });
+  // ── RENDER ──
+  function render() {
+    renderWeekHeader();
+    renderDayCards();
+    renderSummary();
+    renderAllTime();
+  }
 
-  const weekTotalEaten = weeklyRows.reduce((s, r) => s + r.eaten, 0);
-  const weekTotalBurned = weeklyRows.reduce((s, r) => s + r.burned, 0);
-  const weekNet = weekTotalBurned - weekTotalEaten;
-  const weekWeightLoss = weekNet * 0.00013;
+  function renderWeekHeader() {
+    document.getElementById('weekLabel').textContent = formatWeekLabel(state.activeWeek);
+    const pill = document.getElementById('currentPill');
+    pill.style.display = state.activeWeek === getCurrentWeekKey() ? 'inline' : 'none';
+  }
 
-  // All-time totals
-  const allWeeks = Object.keys(weeks).sort();
-  let allTimeNet = 0;
-  allWeeks.forEach((wk) => {
-    const wd = weeks[wk] || {};
-    Object.values(wd).forEach((d) => {
+  function renderDayCards() {
+    const container = document.getElementById('dayCards');
+    const dates = getWeekDates(state.activeWeek);
+    const weekData = state.weeks[state.activeWeek] || {};
+
+    container.innerHTML = dates.map((date, i) => {
+      const d = weekData[date] || {eaten:'', burned:''};
       const eaten = parseFloat(d.eaten) || 0;
       const burned = parseFloat(d.burned) || 0;
-      allTimeNet += burned - eaten;
+      const net = burned - eaten;
+      const netClass = net > 0 ? 'positive' : net < 0 ? 'negative' : '';
+      const netText = net !== 0 ? `${net > 0 ? '+' : ''}${net.toFixed(0)} kcal` : '—';
+
+      return `
+        <div class="day-card">
+          <div class="day-header">
+            <span class="day-name">${DAYS[i]}</span>
+            <span class="day-net ${netClass}" id="net-${date}">${netText}</span>
+          </div>
+          <div class="day-inputs">
+            <div class="input-group">
+              <label>🍽 Eaten (kcal)</label>
+              <input type="number" inputmode="numeric" min="0" placeholder="0"
+                value="${d.eaten}"
+                oninput="handleInput('${date}','eaten',this.value)" />
+            </div>
+            <div class="input-group">
+              <label>🔥 Burned (kcal)</label>
+              <input type="number" inputmode="numeric" min="0" placeholder="0"
+                value="${d.burned}"
+                oninput="handleInput('${date}','burned',this.value)" />
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  function renderSummary() {
+    const dates = getWeekDates(state.activeWeek);
+    const weekData = state.weeks[state.activeWeek] || {};
+    let totalEaten = 0, totalBurned = 0;
+    dates.forEach(date => {
+      const d = weekData[date] || {};
+      totalEaten += parseFloat(d.eaten) || 0;
+      totalBurned += parseFloat(d.burned) || 0;
+
+      // update net label live
+      const net = totalBurned - totalEaten; // recalculate after loop
+      const el = document.getElementById('net-' + date);
+      if (el) {
+        const eaten = parseFloat(weekData[date]?.eaten) || 0;
+        const burned = parseFloat(weekData[date]?.burned) || 0;
+        const dayNet = burned - eaten;
+        el.textContent = dayNet !== 0 ? `${dayNet > 0 ? '+' : ''}${dayNet.toFixed(0)} kcal` : '—';
+        el.className = 'day-net ' + (dayNet > 0 ? 'positive' : dayNet < 0 ? 'negative' : '');
+      }
     });
-  });
-  const allTimeWeightLoss = allTimeNet * 0.00013;
 
-  const sortedWeekSummaries = allWeeks.map((wk) => {
-    const wd = weeks[wk] || {};
-    let e = 0,
-      b = 0;
-    Object.values(wd).forEach((d) => {
-      e += parseFloat(d.eaten) || 0;
-      b += parseFloat(d.burned) || 0;
+    // recalculate properly
+    totalEaten = 0; totalBurned = 0;
+    dates.forEach(date => {
+      const d = weekData[date] || {};
+      totalEaten += parseFloat(d.eaten) || 0;
+      totalBurned += parseFloat(d.burned) || 0;
     });
-    return { wk, net: b - e, loss: (b - e) * 0.00013 };
-  });
 
-  return (
-    <div style={styles.root}>
-      <div style={styles.grain} />
+    const weekNet = totalBurned - totalEaten;
+    const weekLoss = weekNet * 0.00013;
 
-      {/* Header */}
-      <header style={styles.header}>
-        <div style={styles.logoMark}>⬡</div>
-        <div>
-          <h1 style={styles.title}>DEFICIT</h1>
-          <p style={styles.subtitle}>Weight Loss Tracker</p>
-        </div>
-        {savedFlash && <div style={styles.savedBadge}>✓ Saved</div>}
-      </header>
+    const cards = [
+      { label: 'Total Eaten', value: `${totalEaten.toFixed(0)} kcal`, color: '#e07b5a', sub: null },
+      { label: 'Total Burned', value: `${totalBurned.toFixed(0)} kcal`, color: '#5ab8e0', sub: null },
+      { label: 'Weekly Net', value: `${weekNet > 0 ? '+' : ''}${weekNet.toFixed(0)} kcal`,
+        color: weekNet >= 0 ? '#7ce08a' : '#e07b7b',
+        sub: weekNet > 0 ? 'deficit' : weekNet < 0 ? 'surplus' : 'balanced' },
+      { label: 'Est. Loss', value: `${Math.abs(weekLoss).toFixed(3)} kg`,
+        color: weekLoss >= 0 ? '#7ce08a' : '#e07b7b',
+        sub: weekLoss >= 0 ? 'lost this week' : 'gained this week' },
+    ];
 
-      <div style={styles.layout}>
-        {/* Left panel: weekly input */}
-        <div style={styles.mainPanel}>
-          {/* Week nav */}
-          <div style={styles.weekNav}>
-            <button style={styles.navBtn} onClick={() => addWeek(-1)}>← Prev</button>
-            <div style={styles.weekLabel}>
-              <span style={styles.weekTag}>WEEK</span>
-              <span style={styles.weekDate}>{formatWeekLabel(activeWeek)}</span>
-              {activeWeek === getCurrentWeekKey() && (
-                <span style={styles.currentBadge}>Current</span>
-              )}
-            </div>
-            <button style={styles.navBtn} onClick={() => addWeek(1)}>Next →</button>
+    document.getElementById('summaryGrid').innerHTML = cards.map(c => `
+      <div class="summary-card">
+        <div class="accent-bar" style="background:${c.color}"></div>
+        <div class="s-label">${c.label}</div>
+        <div class="s-value" style="color:${c.color}">${c.value}</div>
+        ${c.sub ? `<div class="s-sub">${c.sub}</div>` : ''}
+      </div>`).join('');
+
+    renderAllTime();
+  }
+
+  function renderAllTime() {
+    let allTimeNet = 0;
+    Object.keys(state.weeks).forEach(wk => {
+      Object.values(state.weeks[wk]).forEach(d => {
+        allTimeNet += (parseFloat(d.burned) || 0) - (parseFloat(d.eaten) || 0);
+      });
+    });
+    const allTimeLoss = allTimeNet * 0.00013;
+
+    document.getElementById('allTimeKg').innerHTML =
+      `${Math.abs(allTimeLoss).toFixed(2)}<span class="big-unit">kg</span>`;
+    document.getElementById('allTimeLabel').textContent =
+      allTimeLoss >= 0 ? 'total lost' : 'total gained';
+    document.getElementById('allTimeNet').textContent = `${allTimeNet.toFixed(0)} kcal`;
+
+    const sortedWeeks = Object.keys(state.weeks).sort();
+    const historyEl = document.getElementById('weekHistory');
+
+    if (sortedWeeks.length === 0) {
+      historyEl.innerHTML = '<div class="empty-state">No data yet — start logging!</div>';
+      return;
+    }
+
+    historyEl.innerHTML = sortedWeeks.map(wk => {
+      let e = 0, b = 0;
+      Object.values(state.weeks[wk]).forEach(d => {
+        e += parseFloat(d.eaten) || 0;
+        b += parseFloat(d.burned) || 0;
+      });
+      const net = b - e;
+      const loss = net * 0.00013;
+      const isActive = wk === state.activeWeek;
+      const netColor = net >= 0 ? '#7ce08a' : '#e07b7b';
+      const lossColor = loss >= 0 ? '#7ce08a' : '#e07b7b';
+
+      return `
+        <div class="week-history-row ${isActive ? 'active' : ''}" onclick="jumpToWeek('${wk}')">
+          <div>
+            <div class="whr-label">${formatWeekLabel(wk)}</div>
+            <div class="whr-net" style="color:${netColor}">${net >= 0 ? '+' : ''}${net.toFixed(0)} kcal</div>
           </div>
-
-          {/* Table */}
-          <div style={styles.tableWrap}>
-            <table style={styles.table}>
-              <thead>
-                <tr>
-                  <th style={{ ...styles.th, width: 60 }}>Day</th>
-                  <th style={styles.th}>🍽 Calories Eaten</th>
-                  <th style={styles.th}>🔥 Calories Burned</th>
-                  <th style={styles.th}>Net</th>
-                </tr>
-              </thead>
-              <tbody>
-                {weeklyRows.map((row) => (
-                  <tr key={row.date} style={styles.tr}>
-                    <td style={styles.dayCell}>{row.day}</td>
-                    <td style={styles.td}>
-                      <input
-                        type="number"
-                        min="0"
-                        placeholder="0"
-                        value={currentDayData[row.date]?.eaten ?? ""}
-                        onChange={(e) => handleInput(row.date, "eaten", e.target.value)}
-                        style={styles.input}
-                      />
-                    </td>
-                    <td style={styles.td}>
-                      <input
-                        type="number"
-                        min="0"
-                        placeholder="0"
-                        value={currentDayData[row.date]?.burned ?? ""}
-                        onChange={(e) => handleInput(row.date, "burned", e.target.value)}
-                        style={styles.input}
-                      />
-                    </td>
-                    <td style={{ ...styles.td, ...netStyle(row.net) }}>
-                      {row.net !== 0
-                        ? `${row.net > 0 ? "+" : ""}${row.net.toFixed(0)} kcal`
-                        : "—"}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div class="whr-loss" style="color:${lossColor}">
+            ${loss >= 0 ? '-' : '+'}${Math.abs(loss).toFixed(3)} kg
           </div>
+        </div>`;
+    }).join('');
+  }
 
-          {/* Week summary cards */}
-          <div style={styles.cards}>
-            <SummaryCard
-              label="Total Eaten"
-              value={`${weekTotalEaten.toFixed(0)} kcal`}
-              accent="#e07b5a"
-            />
-            <SummaryCard
-              label="Total Burned"
-              value={`${weekTotalBurned.toFixed(0)} kcal`}
-              accent="#5ab8e0"
-            />
-            <SummaryCard
-              label="Weekly Net"
-              value={`${weekNet > 0 ? "+" : ""}${weekNet.toFixed(0)} kcal`}
-              sub={weekNet > 0 ? "deficit" : weekNet < 0 ? "surplus" : "balanced"}
-              accent={weekNet >= 0 ? "#7ce08a" : "#e07b7b"}
-              highlight
-            />
-            <SummaryCard
-              label="Est. Loss This Week"
-              value={`${weekWeightLoss >= 0 ? "" : "+"}${Math.abs(weekWeightLoss).toFixed(3)} kg`}
-              sub={weekWeightLoss >= 0 ? "lost" : "gained"}
-              accent={weekWeightLoss >= 0 ? "#7ce08a" : "#e07b7b"}
-            />
-          </div>
-        </div>
+  // ── TABS ──
+  function switchTab(tab) {
+    document.querySelectorAll('.tab').forEach((t, i) => {
+      t.classList.toggle('active', (i === 0 && tab === 'weekly') || (i === 1 && tab === 'alltime'));
+    });
+    document.getElementById('page-weekly').classList.toggle('active', tab === 'weekly');
+    document.getElementById('page-alltime').classList.toggle('active', tab === 'alltime');
+    if (tab === 'alltime') renderAllTime();
+  }
 
-        {/* Right panel: all-time summary */}
-        <div style={styles.sidePanel}>
-          <h2 style={styles.sideTitle}>All-Time Progress</h2>
-
-          <div style={styles.bigStat}>
-            <div style={styles.bigNum}>
-              {Math.abs(allTimeWeightLoss).toFixed(2)}
-              <span style={styles.bigUnit}>kg</span>
-            </div>
-            <div style={styles.bigLabel}>
-              {allTimeWeightLoss >= 0 ? "total lost" : "total gained"}
-            </div>
-          </div>
-
-          <div style={styles.allTimeCards}>
-            <MiniCard label="Total Deficit" value={`${allTimeNet.toFixed(0)} kcal`} />
-          </div>
-
-          <h3 style={styles.weeksTitle}>Week by Week</h3>
-          <div style={styles.weekList}>
-            {sortedWeekSummaries.length === 0 && (
-              <p style={styles.empty}>No data yet</p>
-            )}
-            {sortedWeekSummaries.map(({ wk, net, loss }) => (
-              <div
-                key={wk}
-                style={{
-                  ...styles.weekRow,
-                  ...(wk === activeWeek ? styles.weekRowActive : {}),
-                }}
-                onClick={() => setActiveWeek(wk)}
-              >
-                <div>
-                  <div style={styles.weekRowLabel}>{formatWeekLabel(wk)}</div>
-                  <div style={{ ...styles.weekRowNet, color: net >= 0 ? "#7ce08a" : "#e07b7b" }}>
-                    {net >= 0 ? "+" : ""}{net.toFixed(0)} kcal
-                  </div>
-                </div>
-                <div style={{ ...styles.weekRowLoss, color: loss >= 0 ? "#7ce08a" : "#e07b7b" }}>
-                  {loss >= 0 ? "-" : "+"}{Math.abs(loss).toFixed(3)} kg
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function SummaryCard({ label, value, sub, accent, highlight }) {
-  return (
-    <div style={{ ...styles.card, ...(highlight ? { border: `1px solid ${accent}44` } : {}) }}>
-      <div style={{ ...styles.cardAccent, background: accent }} />
-      <div style={styles.cardLabel}>{label}</div>
-      <div style={{ ...styles.cardValue, color: accent }}>{value}</div>
-      {sub && <div style={styles.cardSub}>{sub}</div>}
-    </div>
-  );
-}
-
-function MiniCard({ label, value }) {
-  return (
-    <div style={styles.miniCard}>
-      <div style={styles.miniLabel}>{label}</div>
-      <div style={styles.miniValue}>{value}</div>
-    </div>
-  );
-}
-
-function netStyle(net) {
-  if (net > 0) return { color: "#7ce08a", fontWeight: 600 };
-  if (net < 0) return { color: "#e07b7b", fontWeight: 600 };
-  return { color: "#666" };
-}
-
-const styles = {
-  root: {
-    minHeight: "100vh",
-    background: "#0d0d0f",
-    color: "#e8e4dc",
-    fontFamily: "'DM Mono', 'Courier New', monospace",
-    position: "relative",
-    overflow: "hidden",
-  },
-  grain: {
-    position: "fixed",
-    inset: 0,
-    backgroundImage:
-      "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E\")",
-    pointerEvents: "none",
-    zIndex: 0,
-  },
-  header: {
-    display: "flex",
-    alignItems: "center",
-    gap: 16,
-    padding: "28px 32px 20px",
-    borderBottom: "1px solid #1e1e22",
-    position: "relative",
-    zIndex: 1,
-  },
-  logoMark: {
-    fontSize: 32,
-    color: "#7ce08a",
-    lineHeight: 1,
-  },
-  title: {
-    margin: 0,
-    fontSize: 22,
-    fontWeight: 700,
-    letterSpacing: "0.2em",
-    color: "#f0ece4",
-  },
-  subtitle: {
-    margin: 0,
-    fontSize: 11,
-    letterSpacing: "0.15em",
-    color: "#666",
-    textTransform: "uppercase",
-  },
-  savedBadge: {
-    marginLeft: "auto",
-    background: "#7ce08a22",
-    color: "#7ce08a",
-    border: "1px solid #7ce08a44",
-    borderRadius: 6,
-    padding: "4px 12px",
-    fontSize: 12,
-    letterSpacing: "0.1em",
-  },
-  layout: {
-    display: "flex",
-    gap: 0,
-    minHeight: "calc(100vh - 90px)",
-    position: "relative",
-    zIndex: 1,
-  },
-  mainPanel: {
-    flex: 1,
-    padding: "28px 32px",
-    borderRight: "1px solid #1e1e22",
-  },
-  weekNav: {
-    display: "flex",
-    alignItems: "center",
-    gap: 16,
-    marginBottom: 24,
-  },
-  navBtn: {
-    background: "#1a1a1e",
-    border: "1px solid #2a2a2e",
-    color: "#a0a0a8",
-    padding: "8px 16px",
-    borderRadius: 8,
-    cursor: "pointer",
-    fontSize: 12,
-    letterSpacing: "0.05em",
-    fontFamily: "inherit",
-    transition: "all 0.15s",
-  },
-  weekLabel: {
-    flex: 1,
-    display: "flex",
-    alignItems: "center",
-    gap: 10,
-  },
-  weekTag: {
-    fontSize: 10,
-    letterSpacing: "0.2em",
-    color: "#555",
-    background: "#1a1a1e",
-    padding: "3px 8px",
-    borderRadius: 4,
-  },
-  weekDate: {
-    fontSize: 14,
-    color: "#c8c4bc",
-    fontWeight: 600,
-  },
-  currentBadge: {
-    fontSize: 10,
-    background: "#7ce08a22",
-    color: "#7ce08a",
-    border: "1px solid #7ce08a33",
-    padding: "2px 8px",
-    borderRadius: 20,
-    letterSpacing: "0.1em",
-  },
-  tableWrap: {
-    overflowX: "auto",
-    borderRadius: 12,
-    border: "1px solid #1e1e22",
-    marginBottom: 24,
-  },
-  table: {
-    width: "100%",
-    borderCollapse: "collapse",
-    fontSize: 13,
-  },
-  th: {
-    padding: "12px 16px",
-    textAlign: "left",
-    fontSize: 10,
-    letterSpacing: "0.15em",
-    color: "#666",
-    textTransform: "uppercase",
-    background: "#111114",
-    borderBottom: "1px solid #1e1e22",
-  },
-  tr: {
-    borderBottom: "1px solid #16161a",
-  },
-  dayCell: {
-    padding: "10px 16px",
-    fontSize: 11,
-    fontWeight: 700,
-    letterSpacing: "0.12em",
-    color: "#888",
-  },
-  td: {
-    padding: "6px 12px",
-    color: "#c8c4bc",
-  },
-  input: {
-    background: "#16161a",
-    border: "1px solid #2a2a2e",
-    borderRadius: 7,
-    color: "#e8e4dc",
-    fontFamily: "inherit",
-    fontSize: 13,
-    padding: "7px 12px",
-    width: 120,
-    outline: "none",
-    transition: "border-color 0.15s",
-  },
-  cards: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
-    gap: 12,
-  },
-  card: {
-    background: "#111114",
-    border: "1px solid #1e1e22",
-    borderRadius: 12,
-    padding: "16px 18px",
-    position: "relative",
-    overflow: "hidden",
-  },
-  cardAccent: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 2,
-    borderRadius: "12px 12px 0 0",
-    opacity: 0.7,
-  },
-  cardLabel: {
-    fontSize: 10,
-    letterSpacing: "0.15em",
-    color: "#666",
-    textTransform: "uppercase",
-    marginBottom: 6,
-  },
-  cardValue: {
-    fontSize: 20,
-    fontWeight: 700,
-    letterSpacing: "-0.01em",
-  },
-  cardSub: {
-    fontSize: 10,
-    color: "#666",
-    marginTop: 2,
-    letterSpacing: "0.1em",
-    textTransform: "uppercase",
-  },
-  sidePanel: {
-    width: 300,
-    padding: "28px 24px",
-    background: "#0a0a0c",
-  },
-  sideTitle: {
-    margin: "0 0 20px",
-    fontSize: 11,
-    letterSpacing: "0.2em",
-    textTransform: "uppercase",
-    color: "#666",
-    fontWeight: 600,
-  },
-  bigStat: {
-    background: "#111114",
-    border: "1px solid #1e1e22",
-    borderRadius: 14,
-    padding: "24px",
-    textAlign: "center",
-    marginBottom: 16,
-  },
-  bigNum: {
-    fontSize: 48,
-    fontWeight: 800,
-    color: "#7ce08a",
-    letterSpacing: "-0.03em",
-    lineHeight: 1,
-  },
-  bigUnit: {
-    fontSize: 22,
-    marginLeft: 4,
-    opacity: 0.7,
-  },
-  bigLabel: {
-    fontSize: 11,
-    letterSpacing: "0.15em",
-    textTransform: "uppercase",
-    color: "#666",
-    marginTop: 6,
-  },
-  allTimeCards: {
-    marginBottom: 24,
-  },
-  miniCard: {
-    background: "#111114",
-    border: "1px solid #1e1e22",
-    borderRadius: 10,
-    padding: "12px 16px",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  miniLabel: {
-    fontSize: 11,
-    color: "#666",
-    letterSpacing: "0.1em",
-    textTransform: "uppercase",
-  },
-  miniValue: {
-    fontSize: 13,
-    fontWeight: 700,
-    color: "#c8c4bc",
-  },
-  weeksTitle: {
-    fontSize: 10,
-    letterSpacing: "0.2em",
-    textTransform: "uppercase",
-    color: "#555",
-    margin: "0 0 10px",
-    fontWeight: 600,
-  },
-  weekList: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 6,
-    maxHeight: "40vh",
-    overflowY: "auto",
-  },
-  weekRow: {
-    background: "#111114",
-    border: "1px solid #1e1e22",
-    borderRadius: 9,
-    padding: "10px 14px",
-    cursor: "pointer",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    transition: "border-color 0.15s",
-  },
-  weekRowActive: {
-    borderColor: "#7ce08a55",
-    background: "#0f1a10",
-  },
-  weekRowLabel: {
-    fontSize: 11,
-    color: "#a0a0a8",
-    marginBottom: 2,
-  },
-  weekRowNet: {
-    fontSize: 12,
-    fontWeight: 700,
-  },
-  weekRowLoss: {
-    fontSize: 14,
-    fontWeight: 800,
-  },
-  empty: {
-    color: "#444",
-    fontSize: 12,
-    textAlign: "center",
-    padding: "20px 0",
-  },
-};
+  // ── INIT ──
+  load();
+</script>
+</body>
+</html>

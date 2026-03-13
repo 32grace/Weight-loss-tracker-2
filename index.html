@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -13,321 +14,330 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      --bg: #0d0d0f;
-      --bg2: #111114;
-      --bg3: #0a0a0c;
-      --border: #1e1e22;
-      --border2: #2a2a2e;
-      --text: #e8e4dc;
-      --text2: #c8c4bc;
-      --muted: #888;
-      --muted2: #555;
-      --green: #7ce08a;
-      --red: #e07b7b;
-      --orange: #e07b5a;
-      --blue: #5ab8e0;
-      --mono: 'DM Mono', 'Courier New', monospace;
-      --sans: 'Space Grotesk', sans-serif;
-    }
+```
+:root {
+  --bg: #0d0d0f;
+  --bg2: #111114;
+  --bg3: #0a0a0c;
+  --border: #1e1e22;
+  --border2: #2a2a2e;
+  --text: #e8e4dc;
+  --text2: #c8c4bc;
+  --muted: #888;
+  --muted2: #555;
+  --green: #7ce08a;
+  --red: #e07b7b;
+  --orange: #e07b5a;
+  --blue: #5ab8e0;
+  --amber: #e0b85a;
+  --mono: 'DM Mono', 'Courier New', monospace;
+  --sans: 'Space Grotesk', sans-serif;
+}
 
-    html, body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--mono);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-    /* ── HEADER ── */
-    header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 20px 20px 16px;
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      background: var(--bg);
-      z-index: 100;
-    }
-    .logo { font-size: 28px; color: var(--green); line-height: 1; }
-    .header-text h1 {
-      font-family: var(--sans);
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing: 0.2em;
-      color: #f0ece4;
-    }
-    .header-text p {
-      font-size: 10px;
-      letter-spacing: 0.15em;
-      color: var(--muted);
-      text-transform: uppercase;
-    }
-    .saved-badge {
-      margin-left: auto;
-      background: #7ce08a22;
-      color: var(--green);
-      border: 1px solid #7ce08a44;
-      border-radius: 6px;
-      padding: 4px 10px;
-      font-size: 11px;
-      letter-spacing: 0.1em;
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .saved-badge.show { opacity: 1; }
+header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 100;
+}
+.logo { font-size: 28px; color: var(--green); line-height: 1; }
+.header-text h1 {
+  font-family: var(--sans);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  color: #f0ece4;
+}
+.header-text p {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.saved-badge {
+  margin-left: auto;
+  background: #7ce08a22;
+  color: var(--green);
+  border: 1px solid #7ce08a44;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.saved-badge.show { opacity: 1; }
 
-    /* ── TABS ── */
-    .tabs {
-      display: flex;
-      border-bottom: 1px solid var(--border);
-      background: var(--bg);
-      position: sticky;
-      top: 73px;
-      z-index: 99;
-    }
-    .tab {
-      flex: 1;
-      padding: 12px;
-      text-align: center;
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      cursor: pointer;
-      border: none;
-      background: none;
-      font-family: var(--mono);
-      border-bottom: 2px solid transparent;
-      transition: all 0.15s;
-    }
-    .tab.active {
-      color: var(--green);
-      border-bottom-color: var(--green);
-    }
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: sticky;
+  top: 73px;
+  z-index: 99;
+}
+.tab {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: var(--mono);
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+}
+.tab.active { color: var(--green); border-bottom-color: var(--green); }
 
-    /* ── MAIN CONTENT ── */
-    .page { display: none; padding: 20px; }
-    .page.active { display: block; }
+.page { display: none; padding: 20px; padding-bottom: calc(30px + env(safe-area-inset-bottom)); }
+.page.active { display: block; }
 
-    /* ── WEEK NAV ── */
-    .week-nav {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 18px;
-    }
-    .nav-btn {
-      background: var(--bg2);
-      border: 1px solid var(--border2);
-      color: var(--muted);
-      padding: 10px 14px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 14px;
-      font-family: var(--mono);
-      flex-shrink: 0;
-      touch-action: manipulation;
-    }
-    .week-info { flex: 1; text-align: center; }
-    .week-tag {
-      font-size: 9px;
-      letter-spacing: 0.2em;
-      color: var(--muted2);
-      text-transform: uppercase;
-      display: block;
-      margin-bottom: 2px;
-    }
-    .week-date {
-      font-size: 13px;
-      color: var(--text2);
-      font-weight: 500;
-    }
-    .current-pill {
-      display: inline-block;
-      font-size: 9px;
-      background: #7ce08a22;
-      color: var(--green);
-      border: 1px solid #7ce08a33;
-      padding: 2px 7px;
-      border-radius: 20px;
-      letter-spacing: 0.1em;
-      margin-left: 6px;
-    }
+.week-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.nav-btn {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: var(--mono);
+  flex-shrink: 0;
+  touch-action: manipulation;
+}
+.week-info { flex: 1; text-align: center; }
+.week-tag {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--muted2);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 2px;
+}
+.week-date { font-size: 13px; color: var(--text2); font-weight: 500; }
+.current-pill {
+  display: inline-block;
+  font-size: 9px;
+  background: #7ce08a22;
+  color: var(--green);
+  border: 1px solid #7ce08a33;
+  padding: 2px 7px;
+  border-radius: 20px;
+  letter-spacing: 0.1em;
+  margin-left: 6px;
+}
 
-    /* ── DAY CARDS ── */
-    .day-cards { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-    .day-card {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px 16px;
-    }
-    .day-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-    .day-name {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.15em;
-      color: var(--muted);
-      text-transform: uppercase;
-    }
-    .day-net {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--muted2);
-    }
-    .day-net.positive { color: var(--green); }
-    .day-net.negative { color: var(--red); }
-    .day-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .input-group label {
-      display: block;
-      font-size: 9px;
-      letter-spacing: 0.12em;
-      color: var(--muted2);
-      text-transform: uppercase;
-      margin-bottom: 4px;
-    }
-    .input-group input {
-      width: 100%;
-      background: #16161a;
-      border: 1px solid var(--border2);
-      border-radius: 8px;
-      color: var(--text);
-      font-family: var(--mono);
-      font-size: 15px;
-      padding: 10px 12px;
-      outline: none;
-      -webkit-appearance: none;
-      transition: border-color 0.15s;
-    }
-    .input-group input:focus { border-color: #7ce08a55; }
+/* ── DAY CARDS ── */
+.day-cards { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+.day-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  transition: border-color 0.2s;
+}
+.day-card.today { border-color: #7ce08a44; }
+.day-card.future { border: 1.5px dashed #e0b85a33; background: #111210; }
+.day-card.provisional { border: 1.5px dashed var(--amber); background: #131208; }
 
-    /* ── SUMMARY CARDS ── */
-    .summary-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 8px;
-    }
-    .summary-card {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px 16px;
-      position: relative;
-      overflow: hidden;
-    }
-    .summary-card .accent-bar {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      border-radius: 12px 12px 0 0;
-      opacity: 0.8;
-    }
-    .summary-card .s-label {
-      font-size: 9px;
-      letter-spacing: 0.14em;
-      color: var(--muted);
-      text-transform: uppercase;
-      margin-bottom: 4px;
-    }
-    .summary-card .s-value {
-      font-family: var(--sans);
-      font-size: 18px;
-      font-weight: 700;
-    }
-    .summary-card .s-sub {
-      font-size: 9px;
-      color: var(--muted);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-top: 2px;
-    }
+.day-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.day-header-left { display: flex; align-items: center; gap: 8px; }
+.day-name {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.today-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+}
+.provisional-badge {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--amber);
+  background: #e0b85a18;
+  border: 1px solid #e0b85a44;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+.future-label {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted2);
+}
+.day-net { font-size: 12px; font-weight: 700; color: var(--muted2); }
+.day-net.positive { color: var(--green); }
+.day-net.negative { color: var(--red); }
+.day-net.prov-net { color: var(--amber) !important; }
 
-    /* ── ALL TIME PAGE ── */
-    .big-stat {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 28px;
-      text-align: center;
-      margin-bottom: 16px;
-    }
-    .big-num {
-      font-family: var(--sans);
-      font-size: 56px;
-      font-weight: 800;
-      color: var(--green);
-      letter-spacing: -0.03em;
-      line-height: 1;
-    }
-    .big-unit { font-size: 24px; opacity: 0.7; margin-left: 4px; }
-    .big-label {
-      font-size: 11px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-top: 6px;
-    }
-    .mini-stat {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-    .mini-stat .ml { font-size: 11px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
-    .mini-stat .mv { font-size: 14px; font-weight: 700; color: var(--text2); font-family: var(--sans); }
+.day-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.input-group label {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--muted2);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.input-group input {
+  width: 100%;
+  background: #16161a;
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 15px;
+  padding: 10px 12px;
+  outline: none;
+  -webkit-appearance: none;
+  transition: border-color 0.15s;
+}
+.input-group input:focus { border-color: #7ce08a55; }
+.day-card.provisional .input-group input { border-color: #e0b85a33; }
+.day-card.provisional .input-group input:focus { border-color: #e0b85a88; }
 
-    .section-title {
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--muted2);
-      margin-bottom: 10px;
-      font-weight: 500;
-    }
+.prov-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.prov-toggle-label { font-size: 10px; letter-spacing: 0.1em; color: var(--muted2); text-transform: uppercase; }
+.prov-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1px solid var(--border2);
+  border-radius: 20px;
+  padding: 5px 12px;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  touch-action: manipulation;
+  transition: all 0.15s;
+}
+.prov-toggle-btn.on { border-color: var(--amber); color: var(--amber); background: #e0b85a11; }
+.toggle-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted2); transition: background 0.15s; }
+.prov-toggle-btn.on .toggle-dot { background: var(--amber); }
 
-    .week-history { display: flex; flex-direction: column; gap: 8px; }
-    .week-history-row {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      cursor: pointer;
-      touch-action: manipulation;
-      transition: border-color 0.15s;
-    }
-    .week-history-row.active {
-      border-color: #7ce08a55;
-      background: #0f1a10;
-    }
-    .whr-label { font-size: 12px; color: var(--muted); margin-bottom: 2px; }
-    .whr-net { font-size: 12px; font-weight: 700; }
-    .whr-loss { font-family: var(--sans); font-size: 15px; font-weight: 800; }
+/* ── PROVISIONAL INFO BANNER ── */
+.prov-banner {
+  background: #131208;
+  border: 1px dashed #e0b85a55;
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  font-size: 10px;
+  color: var(--amber);
+  letter-spacing: 0.08em;
+  display: none;
+}
+.prov-banner.show { display: block; }
 
-    .empty-state {
-      text-align: center;
-      color: var(--muted2);
-      font-size: 13px;
-      padding: 40px 0;
-    }
+/* ── SUMMARY CARDS ── */
+.summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px; }
+.summary-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  position: relative;
+  overflow: hidden;
+}
+.summary-card.prov-card { border-color: #e0b85a44; background: #131208; }
+.accent-bar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  border-radius: 12px 12px 0 0;
+  opacity: 0.8;
+}
+.s-label { font-size: 9px; letter-spacing: 0.14em; color: var(--muted); text-transform: uppercase; margin-bottom: 4px; }
+.s-value { font-family: var(--sans); font-size: 18px; font-weight: 700; }
+.s-sub { font-size: 9px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
 
-    /* ── SAFE AREA for notched phones ── */
-    .page { padding-bottom: calc(20px + env(safe-area-inset-bottom)); }
+/* ── ALL TIME ── */
+.big-stat {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+.big-num { font-family: var(--sans); font-size: 56px; font-weight: 800; color: var(--green); letter-spacing: -0.03em; line-height: 1; }
+.big-unit { font-size: 24px; opacity: 0.7; margin-left: 4px; }
+.big-label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
+.mini-stat {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.ml { font-size: 11px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+.mv { font-size: 14px; font-weight: 700; color: var(--text2); font-family: var(--sans); }
+.section-title { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted2); margin: 16px 0 10px; font-weight: 500; }
+.week-history { display: flex; flex-direction: column; gap: 8px; }
+.week-history-row {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.week-history-row.active { border-color: #7ce08a55; background: #0f1a10; }
+.week-history-row.has-prov { border-style: dashed; border-color: #e0b85a44; }
+.whr-label { font-size: 12px; color: var(--muted); margin-bottom: 2px; }
+.whr-net { font-size: 12px; font-weight: 700; }
+.whr-prov { font-size: 9px; color: var(--amber); letter-spacing: 0.1em; margin-top: 2px; }
+.whr-loss { font-family: var(--sans); font-size: 15px; font-weight: 800; }
+.empty-state { text-align: center; color: var(--muted2); font-size: 13px; padding: 40px 0; }
+```
+
   </style>
 </head>
 <body>
@@ -346,7 +356,6 @@
   <button class="tab" onclick="switchTab('alltime')">📊 All-Time</button>
 </div>
 
-<!-- WEEKLY TAB -->
 <div class="page active" id="page-weekly">
   <div class="week-nav">
     <button class="nav-btn" onclick="changeWeek(-1)">←</button>
@@ -357,21 +366,23 @@
     </div>
     <button class="nav-btn" onclick="changeWeek(1)">→</button>
   </div>
-
+  <div class="prov-banner" id="provBanner">⚡ Some days are marked provisional — planned figures, not yet confirmed.</div>
   <div class="day-cards" id="dayCards"></div>
-
   <div class="summary-grid" id="summaryGrid"></div>
 </div>
 
-<!-- ALL TIME TAB -->
 <div class="page" id="page-alltime">
   <div class="big-stat">
     <div class="big-num" id="allTimeKg">0.00<span class="big-unit">kg</span></div>
-    <div class="big-label" id="allTimeLabel">total lost</div>
+    <div class="big-label" id="allTimeLabel">total lost (confirmed)</div>
   </div>
   <div class="mini-stat">
-    <span class="ml">Total Deficit</span>
+    <span class="ml">Confirmed Deficit</span>
     <span class="mv" id="allTimeNet">0 kcal</span>
+  </div>
+  <div class="mini-stat" id="provStatRow" style="display:none">
+    <span class="ml" style="color:var(--amber)">⚡ Inc. Provisional</span>
+    <span class="mv" id="allTimeNetProv" style="color:var(--amber)">—</span>
   </div>
   <p class="section-title">Week by Week</p>
   <div class="week-history" id="weekHistory"></div>
@@ -380,10 +391,8 @@
 <script>
   const STORAGE_KEY = 'deficit-tracker-v1';
   const DAYS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-
   let state = { weeks: {}, activeWeek: getWeekKey(new Date()) };
 
-  // ── UTILS ──
   function getWeekKey(date) {
     const d = new Date(date);
     const day = d.getDay();
@@ -401,29 +410,35 @@
   }
 
   function formatWeekLabel(wk) {
-    const start = new Date(wk);
-    const end = new Date(wk);
+    const start = new Date(wk), end = new Date(wk);
     end.setDate(end.getDate() + 6);
     const o = {day:'numeric', month:'short'};
     return `${start.toLocaleDateString('en-GB',o)} – ${end.toLocaleDateString('en-GB',o)}`;
   }
 
+  function todayStr() { return new Date().toISOString().split('T')[0]; }
+  function isFuture(d) { return d > todayStr(); }
+  function isToday(d) { return d === todayStr(); }
   function getCurrentWeekKey() { return getWeekKey(new Date()); }
 
   function ensureWeek(wk) {
     if (!state.weeks[wk]) {
       state.weeks[wk] = {};
-      getWeekDates(wk).forEach(d => { state.weeks[wk][d] = {eaten:'', burned:''}; });
+      getWeekDates(wk).forEach(d => { state.weeks[wk][d] = {eaten:'', burned:'', provisional:false}; });
+    } else {
+      getWeekDates(wk).forEach(d => {
+        if (!state.weeks[wk][d]) state.weeks[wk][d] = {eaten:'', burned:'', provisional:false};
+        if (state.weeks[wk][d].provisional === undefined) state.weeks[wk][d].provisional = false;
+      });
     }
   }
 
-  // ── STORAGE ──
   function save() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state.weeks));
-      const badge = document.getElementById('savedBadge');
-      badge.classList.add('show');
-      setTimeout(() => badge.classList.remove('show'), 1500);
+      const b = document.getElementById('savedBadge');
+      b.classList.add('show');
+      setTimeout(() => b.classList.remove('show'), 1500);
     } catch(e) {}
   }
 
@@ -436,7 +451,6 @@
     render();
   }
 
-  // ── WEEK CHANGE ──
   function changeWeek(offset) {
     const base = new Date(state.activeWeek);
     base.setDate(base.getDate() + offset * 7);
@@ -452,14 +466,23 @@
     render();
   }
 
-  // ── INPUT HANDLER ──
   function handleInput(date, field, value) {
     state.weeks[state.activeWeek][date][field] = value;
+    if (isFuture(date) && (parseFloat(value) > 0)) {
+      state.weeks[state.activeWeek][date].provisional = true;
+    }
+    renderDayCards();
     renderSummary();
     save();
   }
 
-  // ── RENDER ──
+  function toggleProvisional(date) {
+    state.weeks[state.activeWeek][date].provisional = !state.weeks[state.activeWeek][date].provisional;
+    renderDayCards();
+    renderSummary();
+    save();
+  }
+
   function render() {
     renderWeekHeader();
     renderDayCards();
@@ -469,92 +492,128 @@
 
   function renderWeekHeader() {
     document.getElementById('weekLabel').textContent = formatWeekLabel(state.activeWeek);
-    const pill = document.getElementById('currentPill');
-    pill.style.display = state.activeWeek === getCurrentWeekKey() ? 'inline' : 'none';
+    document.getElementById('currentPill').style.display =
+      state.activeWeek === getCurrentWeekKey() ? 'inline' : 'none';
   }
 
   function renderDayCards() {
-    const container = document.getElementById('dayCards');
     const dates = getWeekDates(state.activeWeek);
-    const weekData = state.weeks[state.activeWeek] || {};
+    const wd = state.weeks[state.activeWeek] || {};
+    let anyProv = false;
 
-    container.innerHTML = dates.map((date, i) => {
-      const d = weekData[date] || {eaten:'', burned:''};
+    document.getElementById('dayCards').innerHTML = dates.map((date, i) => {
+      const d = wd[date] || {eaten:'', burned:'', provisional:false};
       const eaten = parseFloat(d.eaten) || 0;
       const burned = parseFloat(d.burned) || 0;
       const net = burned - eaten;
-      const netClass = net > 0 ? 'positive' : net < 0 ? 'negative' : '';
+      const future = isFuture(date);
+      const today = isToday(date);
+      const isProv = !!d.provisional;
+      if (isProv) anyProv = true;
+
+      let cardClass = 'day-card';
+      if (today) cardClass += ' today';
+      else if (isProv) cardClass += ' provisional';
+      else if (future) cardClass += ' future';
+
+      let netClass = 'day-net' + (isProv ? ' prov-net' : net > 0 ? ' positive' : net < 0 ? ' negative' : '');
       const netText = net !== 0 ? `${net > 0 ? '+' : ''}${net.toFixed(0)} kcal` : '—';
 
+      let badge = '';
+      if (today) badge = '<span class="today-dot"></span>';
+      else if (isProv) badge = '<span class="provisional-badge">⚡ Provisional</span>';
+      else if (future) badge = '<span class="future-label">Upcoming</span>';
+
+      let toggleRow = '';
+      if (future || isProv) {
+        toggleRow = `
+          <div class="prov-toggle-row">
+            <span class="prov-toggle-label">Mark as provisional</span>
+            <button class="prov-toggle-btn ${isProv ? 'on' : ''}" onclick="toggleProvisional('${date}')">
+              <span class="toggle-dot"></span>${isProv ? 'On' : 'Off'}
+            </button>
+          </div>`;
+      }
+
       return `
-        <div class="day-card">
+        <div class="${cardClass}">
           <div class="day-header">
-            <span class="day-name">${DAYS[i]}</span>
-            <span class="day-net ${netClass}" id="net-${date}">${netText}</span>
+            <div class="day-header-left">
+              <span class="day-name">${DAYS[i]}</span>${badge}
+            </div>
+            <span class="${netClass}" id="net-${date}">${netText}</span>
           </div>
           <div class="day-inputs">
             <div class="input-group">
               <label>🍽 Eaten (kcal)</label>
               <input type="number" inputmode="numeric" min="0" placeholder="0"
-                value="${d.eaten}"
-                oninput="handleInput('${date}','eaten',this.value)" />
+                value="${d.eaten}" oninput="handleInput('${date}','eaten',this.value)" />
             </div>
             <div class="input-group">
               <label>🔥 Burned (kcal)</label>
               <input type="number" inputmode="numeric" min="0" placeholder="0"
-                value="${d.burned}"
-                oninput="handleInput('${date}','burned',this.value)" />
+                value="${d.burned}" oninput="handleInput('${date}','burned',this.value)" />
             </div>
           </div>
+          ${toggleRow}
         </div>`;
     }).join('');
+
+    document.getElementById('provBanner').classList.toggle('show', anyProv);
   }
 
   function renderSummary() {
     const dates = getWeekDates(state.activeWeek);
-    const weekData = state.weeks[state.activeWeek] || {};
-    let totalEaten = 0, totalBurned = 0;
-    dates.forEach(date => {
-      const d = weekData[date] || {};
-      totalEaten += parseFloat(d.eaten) || 0;
-      totalBurned += parseFloat(d.burned) || 0;
+    const wd = state.weeks[state.activeWeek] || {};
+    let confE = 0, confB = 0, provE = 0, provB = 0, hasProv = false;
 
-      // update net label live
-      const net = totalBurned - totalEaten; // recalculate after loop
+    dates.forEach(date => {
+      const d = wd[date] || {};
+      const eaten = parseFloat(d.eaten) || 0;
+      const burned = parseFloat(d.burned) || 0;
+      const isProv = !!d.provisional;
       const el = document.getElementById('net-' + date);
       if (el) {
-        const eaten = parseFloat(weekData[date]?.eaten) || 0;
-        const burned = parseFloat(weekData[date]?.burned) || 0;
-        const dayNet = burned - eaten;
-        el.textContent = dayNet !== 0 ? `${dayNet > 0 ? '+' : ''}${dayNet.toFixed(0)} kcal` : '—';
-        el.className = 'day-net ' + (dayNet > 0 ? 'positive' : dayNet < 0 ? 'negative' : '');
+        const net = burned - eaten;
+        el.textContent = net !== 0 ? `${net > 0 ? '+' : ''}${net.toFixed(0)} kcal` : '—';
+        el.className = 'day-net' + (isProv ? ' prov-net' : net > 0 ? ' positive' : net < 0 ? ' negative' : '');
       }
+      if (isProv) { provE += eaten; provB += burned; hasProv = true; }
+      else { confE += eaten; confB += burned; }
     });
 
-    // recalculate properly
-    totalEaten = 0; totalBurned = 0;
-    dates.forEach(date => {
-      const d = weekData[date] || {};
-      totalEaten += parseFloat(d.eaten) || 0;
-      totalBurned += parseFloat(d.burned) || 0;
-    });
+    const confNet = confB - confE;
+    const confLoss = confNet * 0.00013;
+    const totalNet = confNet + (provB - provE);
+    const totalLoss = totalNet * 0.00013;
 
-    const weekNet = totalBurned - totalEaten;
-    const weekLoss = weekNet * 0.00013;
-
-    const cards = [
-      { label: 'Total Eaten', value: `${totalEaten.toFixed(0)} kcal`, color: '#e07b5a', sub: null },
-      { label: 'Total Burned', value: `${totalBurned.toFixed(0)} kcal`, color: '#5ab8e0', sub: null },
-      { label: 'Weekly Net', value: `${weekNet > 0 ? '+' : ''}${weekNet.toFixed(0)} kcal`,
-        color: weekNet >= 0 ? '#7ce08a' : '#e07b7b',
-        sub: weekNet > 0 ? 'deficit' : weekNet < 0 ? 'surplus' : 'balanced' },
-      { label: 'Est. Loss', value: `${Math.abs(weekLoss).toFixed(3)} kg`,
-        color: weekLoss >= 0 ? '#7ce08a' : '#e07b7b',
-        sub: weekLoss >= 0 ? 'lost this week' : 'gained this week' },
-    ];
+    let cards;
+    if (hasProv) {
+      cards = [
+        { label: 'Confirmed Eaten', value: `${confE.toFixed(0)} kcal`, color: '#e07b5a', sub: null, prov: false },
+        { label: 'Confirmed Burned', value: `${confB.toFixed(0)} kcal`, color: '#5ab8e0', sub: null, prov: false },
+        { label: 'Confirmed Net', value: `${confNet >= 0 ? '+' : ''}${confNet.toFixed(0)} kcal`,
+          color: confNet >= 0 ? '#7ce08a' : '#e07b7b',
+          sub: confNet > 0 ? 'deficit' : confNet < 0 ? 'surplus' : 'balanced', prov: false },
+        { label: '⚡ Proj. End of Week', value: `${totalNet >= 0 ? '+' : ''}${totalNet.toFixed(0)} kcal`,
+          color: '#e0b85a',
+          sub: `est. ${Math.abs(totalLoss).toFixed(3)} kg ${totalLoss >= 0 ? 'lost' : 'gained'}`, prov: true },
+      ];
+    } else {
+      cards = [
+        { label: 'Total Eaten', value: `${confE.toFixed(0)} kcal`, color: '#e07b5a', sub: null, prov: false },
+        { label: 'Total Burned', value: `${confB.toFixed(0)} kcal`, color: '#5ab8e0', sub: null, prov: false },
+        { label: 'Weekly Net', value: `${confNet >= 0 ? '+' : ''}${confNet.toFixed(0)} kcal`,
+          color: confNet >= 0 ? '#7ce08a' : '#e07b7b',
+          sub: confNet > 0 ? 'deficit' : confNet < 0 ? 'surplus' : 'balanced', prov: false },
+        { label: 'Est. Loss', value: `${Math.abs(confLoss).toFixed(3)} kg`,
+          color: confLoss >= 0 ? '#7ce08a' : '#e07b7b',
+          sub: confLoss >= 0 ? 'lost this week' : 'gained this week', prov: false },
+      ];
+    }
 
     document.getElementById('summaryGrid').innerHTML = cards.map(c => `
-      <div class="summary-card">
+      <div class="summary-card ${c.prov ? 'prov-card' : ''}">
         <div class="accent-bar" style="background:${c.color}"></div>
         <div class="s-label">${c.label}</div>
         <div class="s-value" style="color:${c.color}">${c.value}</div>
@@ -565,65 +624,75 @@
   }
 
   function renderAllTime() {
-    let allTimeNet = 0;
+    let confNet = 0, totalWithProv = 0, anyProv = false;
     Object.keys(state.weeks).forEach(wk => {
       Object.values(state.weeks[wk]).forEach(d => {
-        allTimeNet += (parseFloat(d.burned) || 0) - (parseFloat(d.eaten) || 0);
+        const net = (parseFloat(d.burned)||0) - (parseFloat(d.eaten)||0);
+        if (d.provisional) { anyProv = true; totalWithProv += net; }
+        else { confNet += net; totalWithProv += net; }
       });
     });
-    const allTimeLoss = allTimeNet * 0.00013;
+
+    const confLoss = confNet * 0.00013;
+    const totalLoss = totalWithProv * 0.00013;
 
     document.getElementById('allTimeKg').innerHTML =
-      `${Math.abs(allTimeLoss).toFixed(2)}<span class="big-unit">kg</span>`;
+      `${Math.abs(confLoss).toFixed(2)}<span class="big-unit">kg</span>`;
     document.getElementById('allTimeLabel').textContent =
-      allTimeLoss >= 0 ? 'total lost' : 'total gained';
-    document.getElementById('allTimeNet').textContent = `${allTimeNet.toFixed(0)} kcal`;
+      confLoss >= 0 ? 'total lost (confirmed)' : 'total gained (confirmed)';
+    document.getElementById('allTimeNet').textContent = `${confNet.toFixed(0)} kcal`;
+
+    const provRow = document.getElementById('provStatRow');
+    if (anyProv) {
+      provRow.style.display = 'flex';
+      document.getElementById('allTimeNetProv').textContent =
+        `${totalWithProv.toFixed(0)} kcal → ${Math.abs(totalLoss).toFixed(2)} kg`;
+    } else {
+      provRow.style.display = 'none';
+    }
 
     const sortedWeeks = Object.keys(state.weeks).sort();
     const historyEl = document.getElementById('weekHistory');
-
     if (sortedWeeks.length === 0) {
       historyEl.innerHTML = '<div class="empty-state">No data yet — start logging!</div>';
       return;
     }
 
     historyEl.innerHTML = sortedWeeks.map(wk => {
-      let e = 0, b = 0;
+      let cE=0, cB=0, pE=0, pB=0, hasProv=false;
       Object.values(state.weeks[wk]).forEach(d => {
-        e += parseFloat(d.eaten) || 0;
-        b += parseFloat(d.burned) || 0;
+        if (d.provisional) { pE += parseFloat(d.eaten)||0; pB += parseFloat(d.burned)||0; hasProv=true; }
+        else { cE += parseFloat(d.eaten)||0; cB += parseFloat(d.burned)||0; }
       });
-      const net = b - e;
+      const net = cB - cE;
+      const totalNet = net + (pB - pE);
       const loss = net * 0.00013;
       const isActive = wk === state.activeWeek;
-      const netColor = net >= 0 ? '#7ce08a' : '#e07b7b';
-      const lossColor = loss >= 0 ? '#7ce08a' : '#e07b7b';
-
+      const nc = net >= 0 ? '#7ce08a' : '#e07b7b';
+      const lc = loss >= 0 ? '#7ce08a' : '#e07b7b';
       return `
-        <div class="week-history-row ${isActive ? 'active' : ''}" onclick="jumpToWeek('${wk}')">
+        <div class="week-history-row ${isActive?'active':''} ${hasProv?'has-prov':''}" onclick="jumpToWeek('${wk}')">
           <div>
             <div class="whr-label">${formatWeekLabel(wk)}</div>
-            <div class="whr-net" style="color:${netColor}">${net >= 0 ? '+' : ''}${net.toFixed(0)} kcal</div>
+            <div class="whr-net" style="color:${nc}">${net>=0?'+':''}${net.toFixed(0)} kcal</div>
+            ${hasProv ? `<div class="whr-prov">⚡ proj: ${totalNet>=0?'+':''}${totalNet.toFixed(0)} kcal</div>` : ''}
           </div>
-          <div class="whr-loss" style="color:${lossColor}">
-            ${loss >= 0 ? '-' : '+'}${Math.abs(loss).toFixed(3)} kg
-          </div>
+          <div class="whr-loss" style="color:${lc}">${loss>=0?'-':'+'}${Math.abs(loss).toFixed(3)} kg</div>
         </div>`;
     }).join('');
   }
 
-  // ── TABS ──
   function switchTab(tab) {
-    document.querySelectorAll('.tab').forEach((t, i) => {
-      t.classList.toggle('active', (i === 0 && tab === 'weekly') || (i === 1 && tab === 'alltime'));
+    document.querySelectorAll('.tab').forEach((t,i) => {
+      t.classList.toggle('active', (i===0&&tab==='weekly')||(i===1&&tab==='alltime'));
     });
-    document.getElementById('page-weekly').classList.toggle('active', tab === 'weekly');
-    document.getElementById('page-alltime').classList.toggle('active', tab === 'alltime');
-    if (tab === 'alltime') renderAllTime();
+    document.getElementById('page-weekly').classList.toggle('active', tab==='weekly');
+    document.getElementById('page-alltime').classList.toggle('active', tab==='alltime');
+    if (tab==='alltime') renderAllTime();
   }
 
-  // ── INIT ──
   load();
 </script>
+
 </body>
 </html>

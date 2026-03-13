@@ -303,7 +303,7 @@ header {
   text-align: center;
   margin-bottom: 16px;
 }
-.big-num { font-family: var(--sans); font-size: 56px; font-weight: 800; color: var(--green); letter-spacing: -0.03em; line-height: 1; }
+.big-num { font-family: var(--sans); font-size: 56px; font-weight: 800; color: #7ce08a !important; letter-spacing: -0.03em; line-height: 1; }
 .big-unit { font-size: 24px; opacity: 0.7; margin-left: 4px; }
 .big-label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
 .mini-stat {
@@ -376,10 +376,10 @@ header {
 <div class="page" id="page-alltime">
   <div class="big-stat">
     <div class="big-num" id="allTimeKg">0.00<span class="big-unit">kg</span></div>
-    <div class="big-label" id="allTimeLabel">total lost (confirmed)</div>
+    <div class="big-label" id="allTimeLabel">total lost</div>
   </div>
   <div class="mini-stat">
-    <span class="ml">Confirmed Deficit</span>
+    <span class="ml">Total Deficit</span>
     <span class="mv" id="allTimeNet">0 kcal</span>
   </div>
   <div class="mini-stat" id="provStatRow" style="display:none">
@@ -548,13 +548,13 @@ header {
           <div class="day-inputs">
             <div class="input-group">
               <label>🍽 Eaten (kcal)</label>
-              <input type="number" inputmode="numeric" min="0" placeholder="0"
-                value="${d.eaten}" oninput="handleInput('${date}','eaten',this.value)" />
+              <input type="text" inputmode="decimal" pattern="[0-9]*" min="0" placeholder="0"
+                value="${d.eaten}" onchange="handleInput('${date}','eaten',this.value)" />
             </div>
             <div class="input-group">
               <label>🔥 Burned (kcal)</label>
-              <input type="number" inputmode="numeric" min="0" placeholder="0"
-                value="${d.burned}" oninput="handleInput('${date}','burned',this.value)" />
+              <input type="text" inputmode="decimal" pattern="[0-9]*" min="0" placeholder="0"
+                value="${d.burned}" onchange="handleInput('${date}','burned',this.value)" />
             </div>
           </div>
           ${toggleRow}
@@ -641,7 +641,7 @@ header {
     document.getElementById('allTimeKg').innerHTML =
       `${Math.abs(confLoss).toFixed(2)}<span class="big-unit">kg</span>`;
     document.getElementById('allTimeLabel').textContent =
-      confLoss >= 0 ? 'total lost (confirmed)' : 'total gained (confirmed)';
+      confLoss >= 0 ? 'total lost' : 'total gained';
     document.getElementById('allTimeNet').textContent = `${confNet.toFixed(0)} kcal`;
 
     const provRow = document.getElementById('provStatRow');

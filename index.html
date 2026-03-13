@@ -9,6 +9,147 @@
   <meta name="apple-mobile-web-app-title" content="Deficit" />
   <meta name="theme-color" content="#0d0d0f" />
   <meta name="color-scheme" content="dark" />
+  <link rel="apple-touch-icon" href="icon.png" />
+  <style id="icon-gen"></style>
+  <script>
+    // Generate icon as canvas and set as apple-touch-icon
+    window.addEventListener('load', function() {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = 512; canvas.height = 512;
+        const ctx = canvas.getContext('2d');
+
+```
+    // Warm background gradient
+    const bg = ctx.createRadialGradient(256, 200, 40, 256, 256, 380);
+    bg.addColorStop(0, '#3d2a1e');
+    bg.addColorStop(1, '#1a0f0a');
+    ctx.fillStyle = bg;
+    // Rounded rect
+    const r = 110;
+    ctx.beginPath();
+    ctx.moveTo(r, 0); ctx.lineTo(512-r, 0);
+    ctx.quadraticCurveTo(512,0,512,r);
+    ctx.lineTo(512,512-r);
+    ctx.quadraticCurveTo(512,512,512-r,512);
+    ctx.lineTo(r,512);
+    ctx.quadraticCurveTo(0,512,0,512-r);
+    ctx.lineTo(0,r);
+    ctx.quadraticCurveTo(0,0,r,0);
+    ctx.closePath();
+    ctx.fill();
+
+    // Warm glow
+    const glow = ctx.createRadialGradient(256, 230, 0, 256, 230, 200);
+    glow.addColorStop(0, 'rgba(224,161,90,0.18)');
+    glow.addColorStop(1, 'rgba(224,161,90,0)');
+    ctx.fillStyle = glow;
+    ctx.beginPath();
+    ctx.moveTo(r, 0); ctx.lineTo(512-r, 0);
+    ctx.quadraticCurveTo(512,0,512,r);
+    ctx.lineTo(512,512-r);
+    ctx.quadraticCurveTo(512,512,512-r,512);
+    ctx.lineTo(r,512);
+    ctx.quadraticCurveTo(0,512,0,512-r);
+    ctx.lineTo(0,r);
+    ctx.quadraticCurveTo(0,0,r,0);
+    ctx.closePath();
+    ctx.fill();
+
+    // Draw weighing scale icon
+    const cx = 256, cy = 210;
+
+    // Scale base & pole
+    ctx.strokeStyle = '#e0a85a';
+    ctx.lineWidth = 18;
+    ctx.lineCap = 'round';
+
+    // Pole
+    ctx.beginPath();
+    ctx.moveTo(cx, cy + 10);
+    ctx.lineTo(cx, cy + 110);
+    ctx.stroke();
+
+    // Base
+    ctx.beginPath();
+    ctx.moveTo(cx - 70, cy + 110);
+    ctx.lineTo(cx + 70, cy + 110);
+    ctx.stroke();
+
+    // Top beam
+    ctx.beginPath();
+    ctx.moveTo(cx - 95, cy);
+    ctx.lineTo(cx + 95, cy);
+    ctx.stroke();
+
+    // Centre pivot circle
+    ctx.beginPath();
+    ctx.arc(cx, cy, 10, 0, Math.PI * 2);
+    ctx.fillStyle = '#e0a85a';
+    ctx.fill();
+
+    // Left pan string
+    ctx.strokeStyle = '#e0a85a';
+    ctx.lineWidth = 10;
+    ctx.beginPath();
+    ctx.moveTo(cx - 95, cy);
+    ctx.lineTo(cx - 95, cy + 55);
+    ctx.stroke();
+
+    // Right pan string
+    ctx.beginPath();
+    ctx.moveTo(cx + 95, cy);
+    ctx.lineTo(cx + 95, cy + 55);
+    ctx.stroke();
+
+    // Left pan
+    ctx.beginPath();
+    ctx.ellipse(cx - 95, cy + 60, 42, 12, 0, 0, Math.PI * 2);
+    ctx.fillStyle = '#c8824a';
+    ctx.fill();
+    ctx.strokeStyle = '#e0a85a';
+    ctx.lineWidth = 6;
+    ctx.stroke();
+
+    // Right pan (slightly lower = heavier = progress being made)
+    ctx.beginPath();
+    ctx.ellipse(cx + 95, cy + 72, 42, 12, 0, 0, Math.PI * 2);
+    ctx.fillStyle = '#c8824a';
+    ctx.fill();
+    ctx.strokeStyle = '#e0a85a';
+    ctx.lineWidth = 6;
+    ctx.stroke();
+
+    // Downward arrow on right pan = losing weight
+    ctx.strokeStyle = '#7ce08a';
+    ctx.lineWidth = 12;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.beginPath();
+    ctx.moveTo(cx + 95, cy + 86);
+    ctx.lineTo(cx + 95, cy + 118);
+    ctx.moveTo(cx + 78, cy + 102);
+    ctx.lineTo(cx + 95, cy + 118);
+    ctx.lineTo(cx + 112, cy + 102);
+    ctx.stroke();
+
+    // DEFICIT text
+    ctx.font = 'bold 52px sans-serif';
+    ctx.fillStyle = '#e8d5c0';
+    ctx.textAlign = 'center';
+    ctx.letterSpacing = '6px';
+    ctx.fillText('DEFICIT', cx, cy + 175);
+
+    // Set as icon
+    const dataUrl = canvas.toDataURL('image/png');
+    let link = document.querySelector("link[rel='apple-touch-icon']");
+    if (!link) { link = document.createElement('link'); link.rel = 'apple-touch-icon'; document.head.appendChild(link); }
+    link.href = dataUrl;
+  } catch(e) {}
+});
+```
+
+  </script>
   <title>DEFICIT — Weight Loss Tracker</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet" />
@@ -527,7 +668,7 @@ header {
       else if (future) badge = '<span class="future-label">Upcoming</span>';
 
       let toggleRow = '';
-      if (future || isProv) {
+      if (today || future || isProv) {
         toggleRow = `
           <div class="prov-toggle-row">
             <span class="prov-toggle-label">Mark as provisional</span>

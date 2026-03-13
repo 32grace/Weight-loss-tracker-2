@@ -301,9 +301,9 @@ header {
   padding: 14px 16px;
   transition: border-color 0.2s;
 }
-.day-card.today { border-color: #7ce08a44; }
-.day-card.future { border: 1.5px dashed #e0b85a33; background: #111210; }
-.day-card.provisional { border: 1.5px dashed var(--amber); background: #131208; }
+.day-card.today { border: 2px solid #7ce08a !important; background: #0d1610; }
+.day-card.future { border: 1.5px dashed #e0b85a55; background: #111210; }
+.day-card.provisional { border: 2px dashed #e0b85a !important; background: #131208; }
 
 .day-header {
   display: flex;
@@ -380,24 +380,28 @@ header {
   border-top: 1px solid var(--border);
 }
 .prov-toggle-label { font-size: 10px; letter-spacing: 0.1em; color: var(--muted2); text-transform: uppercase; }
+.prov-toggle-label { font-size: 11px; letter-spacing: 0.1em; color: #a0a0a8; text-transform: uppercase; }
 .prov-toggle-btn {
   display: flex;
   align-items: center;
-  gap: 6px;
-  background: none;
-  border: 1px solid var(--border2);
+  gap: 8px;
+  background: #1e1e24;
+  border: 1.5px solid #3a3a42;
   border-radius: 20px;
-  padding: 5px 12px;
+  padding: 8px 16px;
   cursor: pointer;
   font-family: var(--mono);
-  font-size: 10px;
-  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+  color: #a0a0a8;
   touch-action: manipulation;
   transition: all 0.15s;
+  min-width: 80px;
+  justify-content: center;
 }
-.prov-toggle-btn.on { border-color: var(--amber); color: var(--amber); background: #e0b85a11; }
-.toggle-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted2); transition: background 0.15s; }
-.prov-toggle-btn.on .toggle-dot { background: var(--amber); }
+.prov-toggle-btn.on { border-color: #e0b85a; color: #e0b85a !important; background: #2a2010; }
+.toggle-dot { width: 9px; height: 9px; border-radius: 50%; background: #555; flex-shrink: 0; transition: background 0.15s; }
+.prov-toggle-btn.on .toggle-dot { background: #e0b85a; }
 
 /* ── PROVISIONAL INFO BANNER ── */
 .prov-banner {

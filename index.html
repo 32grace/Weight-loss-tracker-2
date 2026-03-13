@@ -1,733 +1,717 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" style="color-scheme: dark; background:#0d0d0f;">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
-  <title>Taylor House Hunt 2026</title>
-  <!-- PWA / Home screen meta -->
-  <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjogIlRheWxvciBIb3VzZSBIdW50IiwgInNob3J0X25hbWUiOiAiSG91c2UgSHVudCIsICJkZXNjcmlwdGlvbiI6ICJBIHNoYXJlZCBzaG9ydGxpc3QgZm9yIEdyYWNlICYgTXVtIiwgInN0YXJ0X3VybCI6ICIuIiwgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMyQzFBMEUiLCAidGhlbWVfY29sb3IiOiAiIzJDMUEwRSIsICJpY29ucyI6IFt7InNyYyI6ICJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQWdBQUFBSUFDQUlBQUFCN0drT3RBQUFOTWtsRVFWUjRuTzNkdjQ1Ynh4bkdZU3BRdmIyVkpvVkxOWGFiSnBjUXVMWGdObXJkcTFTZlZtNEZ1VFZ5QXdiU3VJMXZ3RERTQk81ekJTa1lLSXgybDN0NC9zeDhNKy96VkhaaUVDTnk1dnVkUTNKWHoxNit1RHNCa09kM3ZSY0FRQjhDQUJCS0FBQkNDUUJBS0FFQUNDVUFBS0VFQUNDVUFBQ0VFZ0NBVUFJQUVFb0FBRUlKQUVBb0FRQUlKUUFBb1FRQUlKUUFBSVFTQUlCUUFnQVFTZ0FBUWdrQVFDZ0JBQWdsQUFDaEJBQWdsQUFBaEJJQWdGQUNBQkJLQUFCQ0NRQkFLQUVBQ0NVQUFLRUVBQ0NVQUFDRUVnQ0FVQUlBRUVvQUFFSUpBRUFvQVFBSUpRQUFvUVFBSUpRQUFJUVNBSUJRQWdBUVNnQUFRZ2tBUUNnQkFBZ2xBQUNoQkFBZ2xBQUFoQklBZ0ZBQ0FCQktBQUJDQ1FCQUtBRUFDQ1VBQUtFRUFDQ1VBQUNFRWdDQVVBSUFFRW9BQUVJSkFFQW9BUUFJSlFBQW9RUUFJSlFBQUlRU0FJQlFBZ0FRU2dBQVFna0FRQ2dCQUFnbEFBQ2hCQUFnbEFBQWhCSUFnRkFDQUJCS0FBQkNDUUJBS0FFQUNDVUFBS0VFQUNDVUFBQ0VFZ0NBVUFJQUVFb0FBRUlKQUVDbzU3MFhBQ3p5emRkZlhmN3IrKzkvNkxVU3B2SHM1WXU3M21zQXJ2bGs5RitTQWJid0ZoQ1VkbVg2UC9uL3duVUNBSFV0bWU4YXdHb0NBQkJLQUtDbzVaZjJiZ0pZUndBQVFna0FRQ2dCQUFnbEFBQ2gvQ0FZMUxYdTAxMC9IY1pDN2dCZ050OTgvWlh2QmJHRU93QW9iZU1vZHpmQUZlNEFvTFNORTl5dEFGY0lBRlQzL3ZzZlhNaHpCRzhCd1dCV1hOVHJCdzl5QndBUVNnQmdKT3ZlMC9kSkFBOFNBSUJRQWdBUVNnQUFRdmxMNGFHaUI5KzE5MlVlOXVWcm9GRExFUi9ZS2djUGNnY0FWZml1RG8zNURBQktPRzc2dS96bk1RSkF0THMvZmRsN0NhZVRhMzg2RVFCeW5hZC85d1ljT3YxZC9uT0Z6d0FJZFRuMzcvNzA1Yi8vL28rT2l6bUMwYytUZkF1SVJBOWU5WGRwZ08vODBKRTdBT0k4OXA3UHVQY0JKajdyK0F5QUxOZmY4Vy84ZWNCZWwvOCtRMllkQVNESWt2bmUvVE5oYUVZQVNMRjhzbXNBSVFTQUNMZk9kQTBnZ1FBd3YzWFRYQU9ZbmdBd3VTMXpYQU9ZbXdBd3MrMFRYQU9ZbUFBd3JiMW05M0VOMk92NyszNE9nSFVFZ0RudE83WGRCekFsQVdCQ1I4enJneHF3L2VMZDVUK3JDUUN6T2U1cTNYMEFreEVBcG5MMGpEN2k4YmRjd3J2OFp3c0JZQjV0cnREck5NRDBaeU8vRHBwSk5INS81cWJmRzdwd2JYLysvUitXUCtiZi92WFBKZi9ab0wvZmxEYjhPbWhtMFA3ZCtTTitkL1I1cGorWmdZV2pINTRrQUF5djEyZXpCLzM5QVZjeVlQU3pMd0ZnYkgyL21YUGMzeUZqMXRPQUQ0RVpXSVh2WlZaWUE2d2pBSXlxenVTdHN4SzRpUUF3cEdvenQ5cDZZQWtCWUR3MXAyM05WY0VWQXNCZ0tzL1p5bXVEK3dTQWtkU2ZzUFZYQ0I4SkFNTVlaYmFPc2s0UUFNWXcxbFFkYTdYRUVnQUdNT0k4SFhITnBCRUFxaHQza282N2NrSUlBS1dOUGtOSFh6OXpFd0RxbW1ONnp2R25ZRW9DUUZIbUpoeE5BS2pJOUljR0JJQnlUSDlvUXdDb3hmU0haZ1NBUWt4L2FFa0FxTUwwaDhZRWdCSk1mMmhQQUFCQ0NRRDl1ZnlITGdTQXpreC82RVVBNk1uMGg0NEVnRzVNZitoTEFPakQ5SWZ1QklBT1RIK29RQUJvemZTSElnU0Fwa3gvcUVNQWFNZjBoMUlFZ0VaTWY2aEdBR2pCOUllQ0JJRERtZjVRa3dCd0xOTWZ5aElBRG1UNlEyVUN3RkZNZnloT0FEaUU2US8xQ1FEN00vMWhDQUxBemt4L0dJVUFzQ2ZUSHdZaUFPekc5SWV4Q0FEN01QMWhPQUxBRGt4L0dKRUFzSlhwRDRNU0FEWXgvV0ZjQXNCNnBqOE1UUUJZeWZTSDBRa0FhNWorTUFFQjRHYW1QOHhCQUxpTjZRL1RFQUJ1WVByRFRBU0FwVXgvbUl3QXNJanBEL01SQUo1bStzT1VCSUFubVA0d0t3SGdHdE4vZEY1QnJoQUFIbVYyek1IcnlHTUVnSWVaR2pQeGF2SWdBZUFCNXNWOHZLYmNKd0I4eXFTWWxWZVdUd2dBLzhlTW1KdlhsMHNDd1ArWURnbTh5bndrQVB5WHVaRERhODJaQUhBNm1RaDV2T0tjQklDVFdaREs2NDRBcERNRmtubjF3d2xBTk9jZmV5Q1pBT1J5OGptekUySUpRQ2hubmt2MlF5WUJTT1MwYzU5ZEVVZ0E0ampuUE1iZVNDTUFXWnh3cnJORG9naEFFR2ViSmV5VEhBS1F3cWxtT2JzbGhBQkVjSjY1bFQyVFFBRG01eVN6anAwelBRR1luRFBNRnZiUDNBUmdaazR2MjlsRkV4T0FhVG0zN01WZW1wVUF6TW1KWlY5MjFKUUVZRUxPS2tld3IrWWpBTE54U2ptTzNUVVpBWmlLODhuUjdMR1pDTUE4bkV6YXNOT21JUUNUY0NacHlYNmJnd0RNd0dta1BidHVBZ0l3UE9lUVh1eTkwUW5BMkp4QStySURoeVlBQTNQMnFNQStISmNBak1xcG93NjdjVkFDTUNUbmpXcnN5UkVKd0hpY05HcXlNNGNqQUlOeHhxak0vaHlMQUl6RTZhSSt1M1FnQWpBTTU0cFIyS3VqRUlBeE9GR014WTRkZ2dBTXdGbGlSUFp0ZlFKUW5WUEV1T3plNGdTZ05PZUgwZG5EbFFsQVhVNE9jN0NUeXhLQW9wd1pabUkvMXlRQUFLRUVvQ0tYUzh6SHJpNUlBTXB4VHBpVnZWMk5BTlRpaERBM083d1VBU2pFMlNDQmZWNkhBRlRoVkpERGJpOUNBRXB3SGtoanoxY2dBUDA1Q1dTeTg3c1RnTTZjQVpMWi8zMEpRRTkyUHpnRkhRbEFOL1k5bkRrTHZRaEFIM1k4WEhJaXVoQ0FEdXgxdU0rNWFFOEFXclBMNFRGT1IyTUMwSlQ5RGRjNUl5MEpRRHQyTml6aHBEUWpBSTNZMDdDYzg5S0dBTFJnTjhPdG5Kb0dCT0J3OWpHczQrd2NUUUNPWlFmREZrN1FvUVRnUVBZdWJPY2NIVWNBam1MWHdsNmNwb01Jd0NIc1Y5aVhNM1VFQWRpZm5RcEhjTEoySndBN3MwZmhPTTdYdmdSZ1QzWW5ITTBwMjVFQTdNYStoRGFjdGIwSXdEN3NTR2pKaWR1RkFPekFYb1Qybkx2dEJHQXJ1eEI2Y2ZvMkVvQk43RC9veXhuY1FnRFdzL09nQWlkeE5RRll5WjZET3B6SGRRUmdEYnNOcW5FcVZ4Q0FtOWxuVUpPemVTc0J1STBkQnBVNW9UY1JnQnZZVzFDZmM3cWNBQ3hsVjhFb25OYUZucjE4Y2RkN0RRQjA0QTRBSUpRQUFJUVNBSUJRQWdBUVNnQUFRajN2dllBVTc5Njg2cjBFR01ucnR4OTZMMkYrN2dBQVFna0FRQ2dCQUFnbEFBQ2hCQUFnbEFBQWhCSUFnRkFDQUJCS0FBQkNDUUJBS0FFQUNDVUFBS0VFQUNDVUFBQ0VFZ0NBVUFJQUVFb0FBRUlKQUVBb2Z5WGtZUDc0bDcvdThqaS8vZkx6NlhUNjdQTXZ0ai9VVDk5OXUvMUJXTWQrWUF0M0FDUFo2N1R2cSthcUV0Ujg1bXV1aWdjSndEQXFuNnZLYTV0VjVlZTg4dHE0SkFCanFIK2k2cTl3SnZXZjdmb3I1Q1FBUXhqbExJMnl6dEdOOGp5UHNzNWtBZ0FRU2dBQVFna0FRQ2dCQUFnbEFBQ2hCQUFnbEFBQWhCSUFnRkFDQUJCS0FBQkNDUUJBS0FFQUNDVUFBS0VFQUNDVUFBQ0VFZ0NBVUFJQUVPcDU3d1h3dE45KytYbTRSK1k0OWdON2NRY0FFTW9kd0FBKysveUwzUi96ZksyMyt5UC8rdVA3ZlIrUSsrd0g5dUlPQUNDVUFBQ0VFZ0NBVUFJQUVFb0FBRUlKQUVBb0FRQUlKUUFBb1FRQUlKUUFBSVR5cXlDbzR2WGJENzJYME02N042OTZMd0VFZ0FLaVJ2L1orWThzQS9UbExTQTZDNXorSHlYLzJhbEFBT2pKQlBRTTBKRUEwSTNaZCtaNW9CY0JvQTlUNzVKbmd5NEVBQ0NVQUF6Z3ArKys3YjJFUlphdjB3WHZmY3Vmay9uMkE3MEl3QmpxbjZYNks1eEovV2U3L2dvNUNjQkFLcCtveW11YlZlWG52UExhdUNRQUk2bDVybXF1S2tITlo3N21xbmlRbndRZXpMNm42OWNmMysvNGFMUm5QN0NGT3dDQVVBSUFFRW9BQUVJSkFFQW9BUUFJSlFBQW9RUUFJSlFBQUlRU0FJQlFBZ0FRU2dBQVFna0FRQ2dCQUFnbEFBQ2hCQUFnbEFBQWhCSUFnRkFDQUJCS0FBQkNDUUJBS0FFQUNDVUFBS0VFQUNDVUFBQ0VFZ0NBVUFJQUVFb0FBRUlKQUVDbzU3MFhBS0hldlhsMS9vZlhiei8wWFFteEJBQmEremo2TC85VkJtalBXMEFBb1FRQW12cms4di9KL3gyT0l3QUFvUVFBSUpRQVFGT1BmZGpyUTJEYUV3Q0FVTDRHQ3EyZEwvYjlIQURkQ1FEMFllN1RuYmVBQUVJSkFFQW9BUUFJSlFBQW9RUUFJSlFBQUlRU0FJQlFBZ0FRU2dBQVFna0FRQ2dCQUFnbEFBQ2hCQUFnbEFBQWhCSUFnRkFDQUJCS0FBQkNDUUJBS0FFQUNDVUFBS0VFQUNDVUFBQ0VFZ0NBVUFJQUVFb0FBRUlKQUVBb0FRQUlKUUFBb1FRQUlKUUFBSVFTZ0VaZXYvM1Fld2t3RE9lbERRRUFDQ1VBQUtFRW9CMTN0YkNFazlLTUFEUmxaNSs5ZS9PcTl4TEs4WnljT1NNdENRQkFLQUZvelFYT21RdmVTNTZOTTZlak1RSG93QzQvTS9YT1BBOW56a1Y3ejE2K3VPdTlobHhPL2luKzJOc0RwL2c5MEpFN2dKN3MrMVAyQkV6K3MzL2tGSFRrRHFBS3N5QnFFSGk1bzE3dXNnUUFJSlMzZ0FCQ0NRQkFLQUVBQ0NVQUFLRUVBQ0NVQUFDRUVnQ0FVQUlBRUVvQUFFSUpBRUFvQVFBSUpRQUFvUVFBSUpRQUFJUVNBSUJRQWdBUVNnQUFRZ2tBUUNnQkFBZ2xBQUNoQkFBZ2xBQUFoQklBZ0ZBQ0FCQktBQUJDQ1FCQUtBRUFDQ1VBQUtFRUFDQ1VBQUNFRWdDQVVBSUFFRW9BQUVJSkFFQW9BUUFJSlFBQW9RUUFJSlFBQUlRU0FJQlFBZ0FRU2dBQVFna0FRQ2dCQUFnbEFBQ2hCQUFnbEFBQWhCSUFnRkFDQUJCS0FBQkNDUUJBS0FFQUNDVUFBS0VFQUNDVUFBQ0VFZ0NBVUFJQUVFb0FBRUlKQUVBb0FRQUlKUUFBb1FRQUlKUUFBSVFTQUlCUUFnQVFTZ0FBUWdrQVFDZ0JBQWdsQUFDaEJBQWdsQUFBaEJJQWdGQUNBQkJLQUFCQ0NRQkFLQUVBQ0NVQUFLRUVBQ0NVQUFDRUVnQ0FVQUlBRUVvQUFFSUpBRUFvQVFBSUpRQUFvUVFBSUpRQUFJUVNBSUJRQWdBUVNnQUFRZ2tBUUtqL0FMUWFyY1ZNVERSakFBQUFBRWxGVGtTdVFtQ0MiLCAic2l6ZXMiOiAiNTEyeDUxMiIsICJ0eXBlIjogImltYWdlL3BuZyIsICJwdXJwb3NlIjogImFueSBtYXNrYWJsZSJ9XX0=" />
-  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="House Hunt" />
-  <meta name="theme-color" content="#2C1A0E" />
-  <link rel="apple-touch-icon" href="data:image/png;base64,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" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <meta name="apple-mobile-web-app-title" content="Deficit" />
+  <meta name="theme-color" content="#0d0d0f" />
+  <meta name="color-scheme" content="dark" />
+  <link rel="apple-touch-icon" href="data:image/png;base64,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" />
+
+  <title>DEFICIT — Weight Loss Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: #2C1A0E; font-family: 'DM Sans', sans-serif; color: #1C1208; min-height: 100vh; -webkit-font-smoothing: antialiased; }
 
 ```
-/* ── STICKY ── */
-#sticky { position: sticky; top: 0; z-index: 100; width: 100%; }
+:root {
+  --bg: #0d0d0f;
+  --bg2: #111114;
+  --bg3: #0a0a0c;
+  --border: #1e1e22;
+  --border2: #2a2a2e;
+  --text: #e8e4dc;
+  --text2: #c8c4bc;
+  --muted: #888;
+  --muted2: #555;
+  --green: #7ce08a;
+  --red: #e07b7b;
+  --orange: #e07b5a;
+  --blue: #5ab8e0;
+  --amber: #e0b85a;
+  --mono: 'DM Mono', 'Courier New', monospace;
+  --sans: 'Space Grotesk', sans-serif;
+}
 
-/* ── HEADER ── */
-.header { background: #2C1A0E; width: 100%; }
-.header-inner { max-width: 480px; margin: 0 auto; padding: 20px 20px 24px; }
-.header-eyebrow { font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #C4966A; margin-bottom: 6px; }
-.header-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: #FFFDF9; line-height: 1.15; }
-.header-sub { font-size: 13px; color: #E8D5BC; margin-top: 6px; font-weight: 300; }
-.header-row { display: flex; align-items: center; justify-content: space-between; margin-top: 20px; }
-.house-count { font-size: 13px; color: #E8D5BC; }
-.add-btn { background: #C4966A; color: #fff; border: none; border-radius: 12px; padding: 10px 18px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; }
+html, body {
+  background: #0d0d0f !important;
+  color: #e8e4dc !important;
+  font-family: var(--mono);
+  min-height: 100vh;
+  overflow-x: hidden;
+  color-scheme: dark;
+}
 
-/* ── SYNC BAR ── */
-.sync-bar { background: #3D2510; width: 100%; height: 4px; overflow: hidden; display: none; }
-.sync-bar.connecting { display: block; }
-.sync-bar-inner { height: 100%; width: 40%; background: linear-gradient(90deg, transparent, #C4966A, transparent); animation: sweep 1.4s ease-in-out infinite; }
-@keyframes sweep { 0% { transform: translateX(-150%); } 100% { transform: translateX(350%); } }
+header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 100;
+}
+.logo { font-size: 28px; color: var(--green); line-height: 1; }
+.header-text h1 {
+  font-family: var(--sans);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  color: #f0ece4;
+}
+.header-text p {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.saved-badge {
+  margin-left: auto;
+  background: #7ce08a22;
+  color: var(--green);
+  border: 1px solid #7ce08a44;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.saved-badge.show { opacity: 1; }
 
-/* ── FILTERS ── */
-.filters-wrap { background: #FFFDF9; border-bottom: 1px solid #E6D9C8; width: 100%; }
-.filters { max-width: 480px; margin: 0 auto; padding: 12px 20px; display: flex; gap: 8px; overflow-x: auto; }
-.filters::-webkit-scrollbar { display: none; }
-.chip { flex-shrink: 0; border: 1.5px solid #E6D9C8; background: transparent; border-radius: 20px; padding: 6px 14px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; color: #8A7560; cursor: pointer; }
-.chip.active { background: #2C1A0E; border-color: #2C1A0E; color: #fff; }
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: sticky;
+  top: 73px;
+  z-index: 99;
+}
+.tab {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: var(--mono);
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+}
+.tab.active { color: var(--green); border-bottom-color: var(--green); }
 
-/* ── LIST ── */
-#app { max-width: 480px; margin: 0 auto; min-height: 100vh; background: #FAF7F2; }
-#list { padding: 16px 20px; display: flex; flex-direction: column; gap: 14px; }
+.page { display: none; padding: 20px; padding-bottom: calc(30px + env(safe-area-inset-bottom)); }
+.page.active { display: block; }
 
-/* ── EMPTY ── */
-.empty { text-align: center; padding: 60px 32px; color: #8A7560; }
-.empty-icon { font-size: 48px; margin-bottom: 16px; }
-.empty-title { font-family: 'Playfair Display', serif; font-size: 20px; color: #2C1A0E; margin-bottom: 8px; }
-.empty-sub { font-size: 14px; line-height: 1.6; }
+.week-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.nav-btn {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: var(--mono);
+  flex-shrink: 0;
+  touch-action: manipulation;
+}
+.week-info { flex: 1; text-align: center; }
+.week-tag {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--muted2);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 2px;
+}
+.week-date { font-size: 13px; color: var(--text2); font-weight: 500; }
+.current-pill {
+  display: inline-block;
+  font-size: 9px;
+  background: #7ce08a22;
+  color: var(--green);
+  border: 1px solid #7ce08a33;
+  padding: 2px 7px;
+  border-radius: 20px;
+  letter-spacing: 0.1em;
+  margin-left: 6px;
+}
 
-/* ── CARD ── */
-.card { background: #FFFDF9; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 16px rgba(44,26,14,0.10); border: 1px solid #E6D9C8; transition: opacity 0.3s; }
-.card.sold { opacity: 0.5; filter: grayscale(60%); }
-.card.sold .card-name { text-decoration: line-through; color: #8A7560; }
-.card-img-wrap { position: relative; }
-.card-img { width: 100%; height: 180px; object-fit: cover; display: block; }
-.card-placeholder { width: 100%; height: 180px; background: linear-gradient(135deg, #F5EDE0, #E8D5BC); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
-.card-placeholder-icon { font-size: 36px; }
-.card-placeholder-text { font-size: 12px; color: #8A7560; font-weight: 500; }
-.card-badge { position: absolute; top: 10px; right: 10px; color: #E8D5BC; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; letter-spacing: 0.5px; }
-.fav-btn { position: absolute; top: 10px; left: 10px; background: rgba(255,255,255,0.92); border: none; border-radius: 50%; width: 34px; height: 34px; font-size: 17px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 1px 6px rgba(44,26,14,0.15); transition: transform 0.15s; }
-.fav-btn:active { transform: scale(1.2); }
-.sold-banner { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(44,26,14,0.75); color: #E8D5BC; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; text-align: center; padding: 6px; display: none; }
-.card.sold .sold-banner { display: block; }
+/* ── DAY CARDS ── */
+.day-cards { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+.day-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  transition: border-color 0.2s;
+}
+.day-card.today { border: 2px solid #7ce08a !important; background: #0d1610; }
+.day-card.future { border: 1.5px dashed #e0b85a55; background: #111210; }
+.day-card.provisional { border: 2px dashed #e0b85a !important; background: #131208; }
 
-.card-body { padding: 14px 16px 16px; }
-.card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
-.card-name { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 600; color: #2C1A0E; line-height: 1.3; flex: 1; }
+.day-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.day-header-left { display: flex; align-items: center; gap: 8px; }
+.day-name {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.today-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+}
+.provisional-badge {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--amber);
+  background: #e0b85a18;
+  border: 1px solid #e0b85a44;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+.future-label {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted2);
+}
+.day-net { font-size: 12px; font-weight: 700; color: var(--muted2); }
+.day-net.positive { color: #7ce08a !important; }
+.day-net.negative { color: #e07b7b !important; }
+.day-net.prov-net { color: #e0b85a !important; }
 
-/* ── PRICE BLOCK ── */
-.card-price-wrap { display: flex; align-items: baseline; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
-.card-price { font-size: 16px; font-weight: 700; color: #3A5A40; white-space: nowrap; }
-.card-price-old { font-size: 13px; font-weight: 500; color: #B8A898; text-decoration: line-through; white-space: nowrap; }
-.reduced-badge { display: inline-flex; align-items: center; gap: 3px; font-size: 10px; font-weight: 700; color: #fff; background: #C0392B; border-radius: 6px; padding: 2px 7px; letter-spacing: 0.3px; white-space: nowrap; }
+.day-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.input-group label {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--muted2);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.input-group input {
+  width: 100%;
+  background: #16161a;
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 15px;
+  padding: 10px 12px;
+  outline: none;
+  -webkit-appearance: none;
+  transition: border-color 0.15s;
+}
+.input-group input:focus { border-color: #7ce08a55; }
+.day-card.provisional .input-group input { border-color: #e0b85a33; }
+.day-card.provisional .input-group input:focus { border-color: #e0b85a88; }
 
-/* ── READ-ONLY PRICE FIELD in edit modal ── */
-.field input[readonly] { background: #F0EBE3; color: #8A7560; cursor: not-allowed; border-color: #E6D9C8; }
-.price-readonly-hint { font-size: 11px; color: #8A7560; margin-top: 5px; }
+.prov-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.prov-toggle-label { font-size: 10px; letter-spacing: 0.1em; color: var(--muted2); text-transform: uppercase; }
+.prov-toggle-label { font-size: 11px; letter-spacing: 0.1em; color: #a0a0a8; text-transform: uppercase; }
+.prov-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #1e1e24;
+  border: 1.5px solid #3a3a42;
+  border-radius: 20px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: #a0a0a8;
+  touch-action: manipulation;
+  transition: all 0.15s;
+  min-width: 80px;
+  justify-content: center;
+}
+.prov-toggle-btn.on { border-color: #e0b85a; color: #e0b85a !important; background: #2a2010; }
+.toggle-dot { width: 9px; height: 9px; border-radius: 50%; background: #555; flex-shrink: 0; transition: background 0.15s; }
+.prov-toggle-btn.on .toggle-dot { background: #e0b85a; }
 
-.fav-pill { display: none; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; color: #B5474A; background: #FFF0F0; border-radius: 20px; padding: 3px 10px; margin-bottom: 8px; width: fit-content; }
-.fav-pill.show { display: flex; }
-.src-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; padding: 3px 8px; border-radius: 6px; margin-bottom: 8px; }
-.src-rm { background: #FFF0E8; color: #E05A00; }
-.src-zp { background: #E8F0FF; color: #1B4FD8; }
-.card-url { font-size: 12px; color: #C4966A; text-decoration: none; display: block; margin-bottom: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.card-notes { font-size: 13px; color: #8A7560; line-height: 1.5; background: #F5EDE0; border-radius: 8px; padding: 8px 10px; margin-bottom: 10px; }
-.card-meta { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #F5EDE0; padding-top: 10px; margin-top: 8px; }
-.card-who { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #8A7560; }
-.avatar { width: 22px; height: 22px; border-radius: 50%; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; }
-.av-grace { background: #C4966A; }
-.av-mum   { background: #3A5A40; }
-.card-actions { display: flex; align-items: center; gap: 4px; }
-.sold-btn { background: none; border: 1px solid #E6D9C8; border-radius: 8px; color: #8A7560; cursor: pointer; font-size: 11px; font-weight: 600; padding: 4px 10px; white-space: nowrap; }
-.card.sold .sold-btn { background: #F5EDE0; color: #2C1A0E; border-color: #C4966A; }
-.edit-btn { background: none; border: none; color: #8A7560; cursor: pointer; font-size: 16px; padding: 4px 8px; border-radius: 6px; }
-.del-btn  { background: none; border: none; color: #8A7560; cursor: pointer; font-size: 16px; padding: 4px 8px; border-radius: 6px; }
+/* ── PROVISIONAL INFO BANNER ── */
+.prov-banner {
+  background: #131208;
+  border: 1px dashed #e0b85a55;
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  font-size: 10px;
+  color: var(--amber);
+  letter-spacing: 0.08em;
+  display: none;
+}
+.prov-banner.show { display: block; }
 
-/* ── AUDIT LOG ── */
-.audit-toggle { display: flex; align-items: center; gap: 5px; background: none; border: none; font-family: 'DM Sans', sans-serif; font-size: 11px; color: #8A7560; cursor: pointer; padding: 6px 0 2px; }
-.audit-toggle .audit-chevron { transition: transform 0.2s; display: inline-block; }
-.audit-toggle.open .audit-chevron { transform: rotate(180deg); }
-.audit-log { display: none; margin-top: 6px; border-top: 1px dashed #E6D9C8; padding-top: 8px; }
-.audit-log.open { display: block; }
-.audit-entry { display: flex; gap: 8px; padding: 5px 0; border-bottom: 1px solid #F5EDE0; font-size: 11px; line-height: 1.5; }
-.audit-entry:last-child { border-bottom: none; }
-.audit-dot { width: 6px; height: 6px; border-radius: 50%; background: #C4966A; margin-top: 4px; flex-shrink: 0; }
-.audit-dot.reduced { background: #C0392B; }
-.audit-text { color: #8A7560; flex: 1; }
-.audit-text strong { color: #2C1A0E; font-weight: 600; }
-.audit-time { color: #B8A898; font-size: 10px; white-space: nowrap; }
+/* ── SUMMARY CARDS ── */
+.summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px; }
+.summary-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  position: relative;
+  overflow: hidden;
+}
+.summary-card.prov-card { border-color: #e0b85a44; background: #131208; }
+.accent-bar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  border-radius: 12px 12px 0 0;
+  opacity: 0.8;
+}
+.s-label { font-size: 9px; letter-spacing: 0.14em; color: var(--muted); text-transform: uppercase; margin-bottom: 4px; }
+.s-value { font-family: var(--sans); font-size: 18px; font-weight: 700; }
+.s-sub { font-size: 9px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
 
-/* ── SHARED MODAL BASE ── */
-.modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(28,18,8,0.65); z-index: 9999; align-items: flex-end; justify-content: center; }
-.modal-overlay.open { display: flex; }
-.modal { background: #FFFDF9; border-radius: 24px 24px 0 0; padding: 20px 20px 48px; width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; }
-.modal-handle { width: 36px; height: 4px; background: #E6D9C8; border-radius: 2px; margin: 0 auto 20px; }
-.modal-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: #2C1A0E; margin-bottom: 20px; }
-.field { margin-bottom: 16px; }
-.field label { display: block; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: #8A7560; margin-bottom: 6px; }
-.field input, .field textarea { width: 100%; border: 1.5px solid #E6D9C8; border-radius: 12px; padding: 12px 14px; font-family: 'DM Sans', sans-serif; font-size: 15px; color: #1C1208; background: #FAF7F2; outline: none; -webkit-appearance: none; appearance: none; }
-.field input:focus, .field textarea:focus { border-color: #C4966A; }
-.field textarea { resize: vertical; min-height: 80px; }
-.url-hint { font-size: 11px; color: #8A7560; margin-top: 5px; }
-.field input.error, .field textarea.error { border-color: #C0392B; background: #FFF5F5; }
-.field-error { font-size: 12px; color: #C0392B; font-weight: 600; margin-top: 5px; display: none; }
-.field-error.show { display: block; }
-.who-picker { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.who-opt { border: 2px solid #E6D9C8; border-radius: 12px; padding: 12px; cursor: pointer; display: flex; align-items: center; gap: 10px; background: #FAF7F2; }
-.who-opt.sel-grace { border-color: #C4966A; background: #FFF5EB; }
-.who-opt.sel-mum   { border-color: #3A5A40; background: #E8F0E9; }
-.who-label { font-size: 14px; font-weight: 600; color: #1C1208; }
-.modal-actions { display: flex; gap: 10px; margin-top: 24px; }
-.btn-cancel { flex: 1; padding: 14px; border: 1.5px solid #E6D9C8; border-radius: 14px; background: transparent; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; color: #8A7560; cursor: pointer; }
-.btn-submit { flex: 2; padding: 14px; border: none; border-radius: 14px; background: #2C1A0E; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; color: #fff; cursor: pointer; }
-.btn-submit:disabled { background: #E6D9C8; color: #8A7560; cursor: not-allowed; }
-
-/* ── PRICE REDUCED TOGGLE in edit modal ── */
-.reduced-toggle-wrap { margin-bottom: 16px; }
-.reduced-toggle-row { display: flex; align-items: center; justify-content: space-between; background: #FAF7F2; border: 1.5px solid #E6D9C8; border-radius: 12px; padding: 12px 14px; cursor: pointer; }
-.reduced-toggle-row.active { border-color: #C0392B; background: #FFF5F5; }
-.reduced-toggle-label { font-size: 14px; font-weight: 600; color: #1C1208; display: flex; align-items: center; gap: 8px; }
-.reduced-toggle-label .rtl-icon { font-size: 16px; }
-.reduced-toggle-sub { font-size: 11px; color: #8A7560; margin-top: 2px; }
-.toggle-switch { width: 42px; height: 24px; border-radius: 12px; background: #E6D9C8; position: relative; transition: background 0.2s; flex-shrink: 0; }
-.toggle-switch.on { background: #C0392B; }
-.toggle-switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
-.toggle-switch.on::after { transform: translateX(18px); }
-.reduced-new-price { margin-top: 10px; display: none; }
-.reduced-new-price.show { display: block; }
-
-/* ── DELETE CONFIRM ── */
-#confirm-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(28,18,8,0.65); z-index: 10000; align-items: center; justify-content: center; padding: 32px; }
-#confirm-overlay.open { display: flex; }
-.confirm-modal { background: #FFFDF9; border-radius: 20px; padding: 28px 24px 24px; width: 100%; max-width: 340px; text-align: center; box-shadow: 0 8px 40px rgba(44,26,14,0.25); }
-.confirm-icon { font-size: 36px; margin-bottom: 12px; }
-.confirm-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: #2C1A0E; margin-bottom: 8px; }
-.confirm-sub { font-size: 13px; color: #8A7560; line-height: 1.6; margin-bottom: 24px; }
-.confirm-actions { display: flex; gap: 10px; }
-.confirm-no  { flex: 1; padding: 13px; border: 1.5px solid #E6D9C8; border-radius: 12px; background: transparent; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; color: #8A7560; cursor: pointer; }
-.confirm-yes { flex: 1; padding: 13px; border: none; border-radius: 12px; background: #C0392B; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; color: #fff; cursor: pointer; }
+/* ── ALL TIME ── */
+.big-stat {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+.big-num { font-family: var(--sans); font-size: 56px; font-weight: 800; color: #7ce08a !important; letter-spacing: -0.03em; line-height: 1; }
+.big-unit { font-size: 24px; opacity: 0.7; margin-left: 4px; }
+.big-label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
+.mini-stat {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.ml { font-size: 11px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+.mv { font-size: 14px; font-weight: 700; color: var(--text2); font-family: var(--sans); }
+.section-title { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted2); margin: 16px 0 10px; font-weight: 500; }
+.week-history { display: flex; flex-direction: column; gap: 8px; }
+.week-history-row {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.week-history-row.active { border-color: #7ce08a55; background: #0f1a10; }
+.week-history-row.has-prov { border-style: dashed; border-color: #e0b85a44; }
+.whr-label { font-size: 12px; color: var(--muted); margin-bottom: 2px; }
+.whr-net { font-size: 12px; font-weight: 700; }
+.whr-prov { font-size: 9px; color: var(--amber); letter-spacing: 0.1em; margin-top: 2px; }
+.whr-loss { font-family: var(--sans); font-size: 15px; font-weight: 800; }
+.empty-state { text-align: center; color: var(--muted2); font-size: 13px; padding: 40px 0; }
 ```
 
   </style>
 </head>
 <body>
 
-<div id="sticky">
-  <div class="header">
-    <div class="header-inner">
-      <div class="header-eyebrow">House Hunt 2026</div>
-      <div class="header-title">Taylor House Hunt</div>
-      <div class="header-sub">A shared shortlist for Grace &amp; Mum 🏡</div>
-      <div class="header-row">
-        <div class="house-count" id="house-count">Loading…</div>
-        <button class="add-btn" id="open-btn">+ Add Property</button>
-      </div>
-    </div>
+<header>
+  <div class="logo">⬡</div>
+  <div class="header-text">
+    <h1>DEFICIT</h1>
+    <p>Weight Loss Tracker</p>
   </div>
-  <div class="sync-bar connecting" id="sync-bar"><div class="sync-bar-inner"></div></div>
-  <div class="filters-wrap">
-    <div class="filters">
-      <button class="chip active" data-filter="all">All</button>
-      <button class="chip" data-filter="grace">Grace's</button>
-      <button class="chip" data-filter="mum">Mum's</button>
-      <button class="chip" data-filter="fav">⭐ Favourites</button>
-      <button class="chip" data-filter="available">Available</button>
-      <button class="chip" data-filter="reduced">🏷 Reduced</button>
+  <div class="saved-badge" id="savedBadge">✓ Saved</div>
+</header>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('weekly')">📅 Weekly</button>
+  <button class="tab" onclick="switchTab('alltime')">📊 All-Time</button>
+</div>
+
+<div class="page active" id="page-weekly">
+  <div class="week-nav">
+    <button class="nav-btn" onclick="changeWeek(-1)">←</button>
+    <div class="week-info">
+      <span class="week-tag">Week</span>
+      <span class="week-date" id="weekLabel">—</span>
+      <span class="current-pill" id="currentPill" style="display:none">Now</span>
     </div>
+    <button class="nav-btn" onclick="changeWeek(1)">→</button>
   </div>
+  <div class="prov-banner" id="provBanner">⚡ Some days are marked provisional — planned figures, not yet confirmed.</div>
+  <div class="day-cards" id="dayCards"></div>
+  <div class="summary-grid" id="summaryGrid"></div>
 </div>
 
-<div id="app">
-  <div id="list"></div>
-</div>
-
-<!-- DELETE CONFIRMATION -->
-
-<div id="confirm-overlay">
-  <div class="confirm-modal">
-    <div class="confirm-icon">🗑️</div>
-    <div class="confirm-title">Remove property?</div>
-    <div class="confirm-sub">This will remove the listing for both you and Mum. This can't be undone.</div>
-    <div class="confirm-actions">
-      <button class="confirm-no" id="confirm-no">No, keep it</button>
-      <button class="confirm-yes" id="confirm-yes">Yes, remove</button>
-    </div>
+<div class="page" id="page-alltime">
+  <div class="big-stat">
+    <div class="big-num" id="allTimeKg">0.00<span class="big-unit">kg</span></div>
+    <div class="big-label" id="allTimeLabel">total lost</div>
   </div>
-</div>
-
-<!-- ADD MODAL -->
-
-<div id="overlay" class="modal-overlay">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title">Add a Property</div>
-    <div class="field">
-      <label>Property Name</label>
-      <input id="f-name" type="text" placeholder="e.g. The Cosy Cottage, 4 Oak Lane…" />
-      <div class="field-error" id="err-name">Required</div>
-    </div>
-    <div class="field">
-      <label>Rightmove / Zoopla Link</label>
-      <input id="f-url" type="url" inputmode="url" placeholder="https://www.rightmove.co.uk/properties/…" />
-      <div class="url-hint">Paste a listing URL — we'll try to pull a preview image</div>
-      <div class="field-error" id="err-url">Required</div>
-    </div>
-    <div class="field">
-      <label>Asking Price (£)</label>
-      <input id="f-price" type="number" inputmode="numeric" placeholder="e.g. 325000" />
-      <div class="field-error" id="err-price">Required</div>
-    </div>
-    <div class="field">
-      <label>Added by</label>
-      <div class="who-picker">
-        <div class="who-opt sel-grace" id="opt-grace"><div class="avatar av-grace">G</div><div class="who-label">Grace</div></div>
-        <div class="who-opt" id="opt-mum"><div class="avatar av-mum">M</div><div class="who-label">Mum</div></div>
-      </div>
-    </div>
-    <div class="field">
-      <label>Notes (optional)</label>
-      <textarea id="f-notes" placeholder="First impressions, things to check, questions to ask…"></textarea>
-    </div>
-    <div class="modal-actions">
-      <button class="btn-cancel" id="cancel-btn">Cancel</button>
-      <button class="btn-submit" id="submit-btn">Add Property 🏡</button>
-    </div>
+  <div class="mini-stat">
+    <span class="ml">Total Deficit</span>
+    <span class="mv" id="allTimeNet">0 kcal</span>
   </div>
-</div>
-
-<!-- EDIT MODAL -->
-
-<div id="edit-overlay" class="modal-overlay">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title">Edit Property</div>
-    <div class="field">
-      <label>Property Name</label>
-      <input id="ef-name" type="text" placeholder="e.g. The Cosy Cottage, 4 Oak Lane…" />
-      <div class="field-error" id="eerr-name">Required</div>
-    </div>
-    <div class="field">
-      <label>Rightmove / Zoopla Link</label>
-      <input id="ef-url" type="url" inputmode="url" placeholder="https://www.rightmove.co.uk/properties/…" />
-      <div class="url-hint">Changing the URL will refresh the preview image</div>
-      <div class="field-error" id="eerr-url">Required</div>
-    </div>
-    <div class="field">
-      <label>Asking Price (£)</label>
-      <input id="ef-price" type="number" inputmode="numeric" readonly />
-      <div class="price-readonly-hint">To change the price, use the Price Reduced toggle below</div>
-      <div class="field-error" id="eerr-price">Required</div>
-    </div>
-
-```
-<!-- PRICE REDUCED TOGGLE -->
-<div class="reduced-toggle-wrap">
-  <div class="reduced-toggle-row" id="reduced-toggle-row">
-    <div>
-      <div class="reduced-toggle-label"><span class="rtl-icon">🏷</span> Price Reduced</div>
-      <div class="reduced-toggle-sub">Records the reduction and updates the asking price</div>
-    </div>
-    <div class="toggle-switch" id="reduced-toggle-switch"></div>
+  <div class="mini-stat" id="provStatRow" style="display:none">
+    <span class="ml" style="color:var(--amber)">⚡ Inc. Provisional</span>
+    <span class="mv" id="allTimeNetProv" style="color:var(--amber)">—</span>
   </div>
-  <div class="reduced-new-price" id="reduced-new-price-wrap">
-    <div class="field" style="margin-bottom:0; margin-top:10px;">
-      <label>New Reduced Price (£)</label>
-      <input id="ef-reduced-price" type="number" inputmode="numeric" placeholder="e.g. 310000" />
-      <div class="field-error" id="eerr-reduced-price">Please enter the new reduced price</div>
-    </div>
-  </div>
+  <p class="section-title">Week by Week</p>
+  <div class="week-history" id="weekHistory"></div>
 </div>
 
-<div class="field">
-  <label>Added by</label>
-  <div class="who-picker">
-    <div class="who-opt sel-grace" id="eopt-grace"><div class="avatar av-grace">G</div><div class="who-label">Grace</div></div>
-    <div class="who-opt" id="eopt-mum"><div class="avatar av-mum">M</div><div class="who-label">Mum</div></div>
-  </div>
-</div>
-<div class="field">
-  <label>Notes (optional)</label>
-  <textarea id="ef-notes" placeholder="First impressions, things to check, questions to ask…"></textarea>
-</div>
-<div class="modal-actions">
-  <button class="btn-cancel" id="edit-cancel-btn">Cancel</button>
-  <button class="btn-submit" id="edit-submit-btn">Save Changes</button>
-</div>
-```
+<script>
+  const STORAGE_KEY = 'deficit-tracker-v1';
+  const DAYS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  let state = { weeks: {}, activeWeek: getWeekKey(new Date()) };
 
-  </div>
-</div>
+  function getWeekKey(date) {
+    const d = new Date(date);
+    const day = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+    d.setDate(diff);
+    return d.toISOString().split('T')[0];
+  }
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getDatabase, ref, push, remove, update, onValue }
-    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-
-  const firebaseConfig = {
-    apiKey:            "AIzaSyAw2D2qzjLFg6QvIXj8bSqPbnM2UnjxvfI",
-    authDomain:        "taylor-house-hunt.firebaseapp.com",
-    databaseURL:       "https://taylor-house-hunt-default-rtdb.firebaseio.com",
-    projectId:         "taylor-house-hunt",
-    storageBucket:     "taylor-house-hunt.firebasestorage.app",
-    messagingSenderId: "522668921413",
-    appId:             "1:522668921413:web:3275fe9506b03ba8fa892c"
-  };
-
-  const fbApp      = initializeApp(firebaseConfig);
-  const db         = getDatabase(fbApp);
-  const houseRef   = ref(db, 'houses');
-  const APP_SECRET = 'THH-2026-grace-mum';
-
-  var houses       = [];
-  var activeFilter = 'all';
-  var selectedWho  = 'grace';
-  var editWho      = 'grace';
-  var editingKey   = null;
-  var reducedOn    = false;
-
-  // ── Sync bar ──
-  onValue(ref(db, '.info/connected'), function(snap) {
-    var bar = document.getElementById('sync-bar');
-    snap.val() === true ? bar.classList.remove('connecting') : bar.classList.add('connecting');
-  });
-
-  // ── Real-time data ──
-  onValue(houseRef, function(snapshot) {
-    houses = [];
-    snapshot.forEach(function(child) {
-      var h = child.val(); h._firebaseKey = child.key; houses.push(h);
+  function getWeekDates(wk) {
+    return Array.from({length:7}, (_,i) => {
+      const d = new Date(wk);
+      d.setDate(d.getDate() + i);
+      return d.toISOString().split('T')[0];
     });
-    houses.sort(function(a,b){ return new Date(b.addedAt) - new Date(a.addedAt); });
-    render();
-  });
-
-  // ── Helpers ──
-  function formatPrice(p) {
-    if (!p) return '';
-    var n = parseInt(String(p).replace(/[^0-9]/g,''));
-    return isNaN(n) ? '' : '\u00a3' + n.toLocaleString('en-GB');
   }
-  function formatDate(iso) {
-    return new Date(iso).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+
+  function formatWeekLabel(wk) {
+    const start = new Date(wk), end = new Date(wk);
+    end.setDate(end.getDate() + 6);
+    const o = {day:'numeric', month:'short'};
+    return `${start.toLocaleDateString('en-GB',o)} – ${end.toLocaleDateString('en-GB',o)}`;
   }
-  function formatDateTime(iso) {
-    var d = new Date(iso);
-    return d.toLocaleDateString('en-GB',{day:'numeric',month:'short'}) + ' at ' + d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
-  }
-  function shortUrl(url) {
-    if (!url) return '';
-    var s = url.replace(/^https?:\/\//,'');
-    return s.length > 50 ? s.slice(0,50)+'...' : s;
-  }
-  function scrollToTop() { window.scrollTo({top:0,behavior:'smooth'}); }
 
-  // ── Build card ──
-  function buildCard(h) {
-    var isGrace  = h.addedBy === 'grace';
-    var userName = isGrace ? 'Grace' : 'Mum';
-    var badgeBg  = isGrace ? '#2C1A0E' : '#3A5A40';
-    var avCls    = isGrace ? 'av-grace' : 'av-mum';
-    var initial  = isGrace ? 'G' : 'M';
-    var isSold   = !!h.sold;
-    var isFav    = !!h.favourite;
-    var isReduced = !!h.reduced;
+  function todayStr() { return new Date().toISOString().split('T')[0]; }
+  function isFuture(d) { return d > todayStr(); }
+  function isToday(d) { return d === todayStr(); }
+  function getCurrentWeekKey() { return getWeekKey(new Date()); }
 
-    // Price history — build from priceHistory array if present
-    var auditLog = h.auditLog ? Object.values(h.auditLog) : [];
-    auditLog.sort(function(a,b){ return new Date(b.at) - new Date(a.at); });
-
-    var card = document.createElement('div');
-    card.className = 'card' + (isSold ? ' sold' : '');
-
-    // Image
-    var imgWrap = document.createElement('div'); imgWrap.className = 'card-img-wrap';
-    if (h.imageUrl) {
-      var img = document.createElement('img'); img.className = 'card-img'; img.src = h.imageUrl; img.alt = h.name||'';
-      img.onerror = function() {
-        var ph = document.createElement('div'); ph.className = 'card-placeholder';
-        ph.innerHTML = '<div class="card-placeholder-icon">&#127969;</div><div class="card-placeholder-text">No preview available</div>';
-        imgWrap.replaceChild(ph, img);
-      };
-      imgWrap.appendChild(img);
+  function ensureWeek(wk) {
+    if (!state.weeks[wk]) {
+      state.weeks[wk] = {};
+      getWeekDates(wk).forEach(d => { state.weeks[wk][d] = {eaten:'', burned:'', provisional:false}; });
     } else {
-      var ph = document.createElement('div'); ph.className = 'card-placeholder';
-      ph.innerHTML = '<div class="card-placeholder-icon">&#127969;</div><div class="card-placeholder-text">No preview available</div>';
-      imgWrap.appendChild(ph);
-    }
-    var favBtn = document.createElement('button'); favBtn.className = 'fav-btn'; favBtn.setAttribute('data-key',h._firebaseKey); favBtn.setAttribute('data-action','fav'); favBtn.textContent = isFav ? '⭐' : '☆'; imgWrap.appendChild(favBtn);
-    var badge = document.createElement('div'); badge.className = 'card-badge'; badge.style.background = badgeBg; badge.textContent = 'Added by '+userName; imgWrap.appendChild(badge);
-    var soldBanner = document.createElement('div'); soldBanner.className = 'sold-banner'; soldBanner.textContent = '🔒 Sold / Off market'; imgWrap.appendChild(soldBanner);
-    card.appendChild(imgWrap);
-
-    // Body
-    var body = document.createElement('div'); body.className = 'card-body';
-
-    // Name row
-    var top = document.createElement('div'); top.className = 'card-top';
-    var nameEl = document.createElement('div'); nameEl.className = 'card-name'; nameEl.textContent = h.name||'Unnamed Property'; top.appendChild(nameEl);
-    body.appendChild(top);
-
-    // Price block — current price; if reduced show previous price struck through + badge
-    var priceWrap = document.createElement('div'); priceWrap.className = 'card-price-wrap';
-    if (h.price) {
-      var priceEl = document.createElement('div'); priceEl.className = 'card-price'; priceEl.textContent = formatPrice(h.price); priceWrap.appendChild(priceEl);
-    }
-    if (isReduced && h.previousPrice && String(h.previousPrice) !== String(h.price)) {
-      var oldPriceEl = document.createElement('div'); oldPriceEl.className = 'card-price-old'; oldPriceEl.textContent = formatPrice(h.previousPrice); priceWrap.appendChild(oldPriceEl);
-      var redBadge = document.createElement('div'); redBadge.className = 'reduced-badge'; redBadge.textContent = '🏷 Price Reduced'; priceWrap.appendChild(redBadge);
-    }
-    if (priceWrap.children.length > 0) body.appendChild(priceWrap);
-
-    var favPill = document.createElement('div'); favPill.className = 'fav-pill'+(isFav?' show':''); favPill.textContent = '⭐ Favourited'; body.appendChild(favPill);
-
-    if (h.url) {
-      if (h.url.indexOf('rightmove')!==-1) { var sb=document.createElement('span'); sb.className='src-badge src-rm'; sb.textContent='🏘 Rightmove'; body.appendChild(sb); }
-      else if (h.url.indexOf('zoopla')!==-1) { var sb=document.createElement('span'); sb.className='src-badge src-zp'; sb.textContent='🔍 Zoopla'; body.appendChild(sb); }
-      var link=document.createElement('a'); link.className='card-url'; link.href=h.url; link.target='_blank'; link.rel='noopener'; link.textContent='🔗 '+shortUrl(h.url); body.appendChild(link);
-    }
-    if (h.notes) { var notesEl=document.createElement('div'); notesEl.className='card-notes'; notesEl.textContent='\u201c'+h.notes+'\u201d'; body.appendChild(notesEl); }
-
-    // Meta
-    var meta = document.createElement('div'); meta.className = 'card-meta';
-    var who = document.createElement('div'); who.className = 'card-who';
-    var av = document.createElement('div'); av.className = 'avatar '+avCls; av.textContent = initial; who.appendChild(av);
-    var whoText = document.createElement('span'); whoText.textContent = userName+' \u00b7 '+formatDate(h.addedAt); who.appendChild(whoText);
-    meta.appendChild(who);
-    var actions = document.createElement('div'); actions.className = 'card-actions';
-    var soldBtn = document.createElement('button'); soldBtn.className='sold-btn'; soldBtn.setAttribute('data-key',h._firebaseKey); soldBtn.setAttribute('data-action','sold'); soldBtn.textContent=isSold?'↩ Relist':'Mark Sold'; actions.appendChild(soldBtn);
-    var editBtn = document.createElement('button'); editBtn.className='edit-btn'; editBtn.innerHTML='✏️'; editBtn.setAttribute('data-key',h._firebaseKey); editBtn.setAttribute('data-action','edit'); actions.appendChild(editBtn);
-    var delBtn  = document.createElement('button'); delBtn.className='del-btn';  delBtn.innerHTML='&#128465;'; delBtn.setAttribute('data-key',h._firebaseKey); delBtn.setAttribute('data-action','delete'); actions.appendChild(delBtn);
-    meta.appendChild(actions);
-    body.appendChild(meta);
-
-    // Audit log
-    if (auditLog.length > 0) {
-      var toggleBtn = document.createElement('button'); toggleBtn.className='audit-toggle';
-      toggleBtn.innerHTML = '🕐 '+auditLog.length+' edit'+(auditLog.length===1?'':'s')+' <span class="audit-chevron">▾</span>';
-      var logDiv = document.createElement('div'); logDiv.className='audit-log';
-      auditLog.forEach(function(entry) {
-        var row=document.createElement('div'); row.className='audit-entry';
-        var dot=document.createElement('div'); dot.className='audit-dot'+(entry.type==='reduction'?' reduced':''); row.appendChild(dot);
-        var txt=document.createElement('div'); txt.className='audit-text';
-        txt.innerHTML='<strong>'+(entry.by==='grace'?'Grace':'Mum')+'</strong> '+entry.summary;
-        row.appendChild(txt);
-        var time=document.createElement('div'); time.className='audit-time'; time.textContent=formatDateTime(entry.at); row.appendChild(time);
-        logDiv.appendChild(row);
+      getWeekDates(wk).forEach(d => {
+        if (!state.weeks[wk][d]) state.weeks[wk][d] = {eaten:'', burned:'', provisional:false};
+        if (state.weeks[wk][d].provisional === undefined) state.weeks[wk][d].provisional = false;
       });
-      toggleBtn.addEventListener('click',function(){ toggleBtn.classList.toggle('open'); logDiv.classList.toggle('open'); });
-      body.appendChild(toggleBtn);
-      body.appendChild(logDiv);
     }
-
-    card.appendChild(body);
-    return card;
   }
 
-  // ── Render ──
+  function save() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.weeks));
+      const b = document.getElementById('savedBadge');
+      b.classList.add('show');
+      setTimeout(() => b.classList.remove('show'), 1500);
+    } catch(e) {}
+  }
+
+  function load() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) state.weeks = JSON.parse(raw);
+    } catch(e) {}
+    ensureWeek(state.activeWeek);
+    render();
+  }
+
+  function changeWeek(offset) {
+    const base = new Date(state.activeWeek);
+    base.setDate(base.getDate() + offset * 7);
+    state.activeWeek = getWeekKey(base);
+    ensureWeek(state.activeWeek);
+    render();
+  }
+
+  function jumpToWeek(wk) {
+    state.activeWeek = wk;
+    ensureWeek(wk);
+    switchTab('weekly');
+    render();
+  }
+
+  function handleInput(date, field, value) {
+    state.weeks[state.activeWeek][date][field] = value;
+    if (isFuture(date) && (parseFloat(value) > 0)) {
+      state.weeks[state.activeWeek][date].provisional = true;
+    }
+    renderDayCards();
+    renderSummary();
+    save();
+  }
+
+  function toggleProvisional(date) {
+    state.weeks[state.activeWeek][date].provisional = !state.weeks[state.activeWeek][date].provisional;
+    renderDayCards();
+    renderSummary();
+    save();
+  }
+
   function render() {
-    var filtered = houses.filter(function(h) {
-      if (activeFilter==='grace')     return h.addedBy==='grace';
-      if (activeFilter==='mum')       return h.addedBy==='mum';
-      if (activeFilter==='fav')       return !!h.favourite;
-      if (activeFilter==='available') return !h.sold;
-      if (activeFilter==='reduced')   return !!h.reduced;
-      return true;
+    renderWeekHeader();
+    renderDayCards();
+    renderSummary();
+    renderAllTime();
+  }
+
+  function renderWeekHeader() {
+    document.getElementById('weekLabel').textContent = formatWeekLabel(state.activeWeek);
+    document.getElementById('currentPill').style.display =
+      state.activeWeek === getCurrentWeekKey() ? 'inline' : 'none';
+  }
+
+  function renderDayCards() {
+    const dates = getWeekDates(state.activeWeek);
+    const wd = state.weeks[state.activeWeek] || {};
+    let anyProv = false;
+
+    document.getElementById('dayCards').innerHTML = dates.map((date, i) => {
+      const d = wd[date] || {eaten:'', burned:'', provisional:false};
+      const eaten = parseFloat(d.eaten) || 0;
+      const burned = parseFloat(d.burned) || 0;
+      const net = burned - eaten;
+      const future = isFuture(date);
+      const today = isToday(date);
+      const isProv = !!d.provisional;
+      if (isProv) anyProv = true;
+
+      let cardClass = 'day-card';
+      if (today) cardClass += ' today';
+      else if (isProv) cardClass += ' provisional';
+      else if (future) cardClass += ' future';
+
+      // Inline card border style to force Safari to apply it
+      let cardInlineStyle = '';
+      if (today && !isProv) cardInlineStyle = 'border: 2px solid #7ce08a !important; background: #0d1610;';
+      else if (isProv) cardInlineStyle = 'border: 2px dashed #e0b85a; background: #131208;';
+      else if (future) cardInlineStyle = 'border: 1.5px dashed #e0b85a55; background: #111210;';
+
+      let netClass = 'day-net' + (isProv ? ' prov-net' : net > 0 ? ' positive' : net < 0 ? ' negative' : '');
+      const netText = net !== 0 ? `${net > 0 ? '+' : ''}${net.toFixed(0)} kcal` : '—';
+
+      let badge = '';
+      if (today && !isProv) badge = '<span style="width:7px;height:7px;border-radius:50%;background:#7ce08a;display:inline-block;"></span>';
+      else if (isProv) badge = '<span style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#e0b85a;background:#e0b85a18;border:1px solid #e0b85a44;border-radius:4px;padding:2px 6px;">⚡ Provisional</span>';
+      else if (future) badge = '<span style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#555;">Upcoming</span>';
+
+      let toggleRow = '';
+      if (today || future || isProv) {
+        const btnStyle = isProv
+          ? 'display:inline-flex;align-items:center;gap:8px;background:#2a2010;border:2px solid #e0b85a;border-radius:20px;padding:8px 18px;font-family:inherit;font-size:13px;font-weight:600;color:#e0b85a;cursor:pointer;min-width:80px;justify-content:center;'
+          : 'display:inline-flex;align-items:center;gap:8px;background:#222228;border:2px solid #4a4a55;border-radius:20px;padding:8px 18px;font-family:inherit;font-size:13px;font-weight:600;color:#a0a0b0;cursor:pointer;min-width:80px;justify-content:center;';
+        const dotStyle = isProv
+          ? 'width:9px;height:9px;border-radius:50%;background:#e0b85a;display:inline-block;flex-shrink:0;'
+          : 'width:9px;height:9px;border-radius:50%;background:#555;display:inline-block;flex-shrink:0;';
+        toggleRow = `
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid #1e1e22;">
+            <span style="font-size:11px;letter-spacing:0.1em;color:#a0a0a8;text-transform:uppercase;">Mark as provisional</span>
+            <button style="${btnStyle}" onclick="toggleProvisional('${date}')">
+              <span style="${dotStyle}"></span>${isProv ? 'On' : 'Off'}
+            </button>
+          </div>`;
+      }
+
+      return `
+        <div class="${cardClass}" style="${cardInlineStyle}">
+          <div class="day-header">
+            <div class="day-header-left">
+              <span class="day-name">${DAYS[i]}</span>${badge}
+            </div>
+            <span class="${netClass}" id="net-${date}">${netText}</span>
+          </div>
+          <div class="day-inputs">
+            <div class="input-group">
+              <label>🍽 Eaten (kcal)</label>
+              <input type="text" inputmode="decimal" pattern="[0-9]*" min="0" placeholder="0"
+                value="${d.eaten}" onchange="handleInput('${date}','eaten',this.value)" />
+            </div>
+            <div class="input-group">
+              <label>🔥 Burned (kcal)</label>
+              <input type="text" inputmode="decimal" pattern="[0-9]*" min="0" placeholder="0"
+                value="${d.burned}" onchange="handleInput('${date}','burned',this.value)" />
+            </div>
+          </div>
+          ${toggleRow}
+        </div>`;
+    }).join('');
+
+    document.getElementById('provBanner').classList.toggle('show', anyProv);
+  }
+
+  function renderSummary() {
+    const dates = getWeekDates(state.activeWeek);
+    const wd = state.weeks[state.activeWeek] || {};
+    let confE = 0, confB = 0, provE = 0, provB = 0, hasProv = false;
+
+    dates.forEach(date => {
+      const d = wd[date] || {};
+      const eaten = parseFloat(d.eaten) || 0;
+      const burned = parseFloat(d.burned) || 0;
+      const isProv = !!d.provisional;
+      const el = document.getElementById('net-' + date);
+      if (el) {
+        const net = burned - eaten;
+        el.textContent = net !== 0 ? `${net > 0 ? '+' : ''}${net.toFixed(0)} kcal` : '—';
+        el.className = 'day-net' + (isProv ? ' prov-net' : net > 0 ? ' positive' : net < 0 ? ' negative' : '');
+      }
+      if (isProv) { provE += eaten; provB += burned; hasProv = true; }
+      else { confE += eaten; confB += burned; }
     });
-    var c = houses.length;
-    document.getElementById('house-count').textContent = c+(c===1?' property saved':' properties saved');
-    var list = document.getElementById('list'); list.innerHTML='';
-    if (filtered.length===0) {
-      list.innerHTML='<div class="empty"><div class="empty-icon">&#128269;</div><div class="empty-title">No properties yet</div><div class="empty-sub">Tap \u201cAdd Property\u201d to start saving listings for Grace and Mum to browse together.</div></div>';
+
+    const confNet = confB - confE;
+    const confLoss = confNet * 0.00013;
+    const totalNet = confNet + (provB - provE);
+    const totalLoss = totalNet * 0.00013;
+
+    let cards;
+    if (hasProv) {
+      cards = [
+        { label: 'Confirmed Eaten', value: `${confE.toFixed(0)} kcal`, color: '#e07b5a', sub: null, prov: false },
+        { label: 'Confirmed Burned', value: `${confB.toFixed(0)} kcal`, color: '#5ab8e0', sub: null, prov: false },
+        { label: 'Confirmed Net', value: `${confNet >= 0 ? '+' : ''}${confNet.toFixed(0)} kcal`,
+          color: confNet >= 0 ? '#7ce08a' : '#e07b7b',
+          sub: confNet > 0 ? 'deficit' : confNet < 0 ? 'surplus' : 'balanced', prov: false },
+        { label: '⚡ Proj. End of Week', value: `${totalNet >= 0 ? '+' : ''}${totalNet.toFixed(0)} kcal`,
+          color: '#e0b85a',
+          sub: `est. ${Math.abs(totalLoss).toFixed(3)} kg ${totalLoss >= 0 ? 'lost' : 'gained'}`, prov: true },
+      ];
+    } else {
+      cards = [
+        { label: 'Total Eaten', value: `${confE.toFixed(0)} kcal`, color: '#e07b5a', sub: null, prov: false },
+        { label: 'Total Burned', value: `${confB.toFixed(0)} kcal`, color: '#5ab8e0', sub: null, prov: false },
+        { label: 'Weekly Net', value: `${confNet >= 0 ? '+' : ''}${confNet.toFixed(0)} kcal`,
+          color: confNet >= 0 ? '#7ce08a' : '#e07b7b',
+          sub: confNet > 0 ? 'deficit' : confNet < 0 ? 'surplus' : 'balanced', prov: false },
+        { label: 'Est. Loss', value: `${Math.abs(confLoss).toFixed(3)} kg`,
+          color: confLoss >= 0 ? '#7ce08a' : '#e07b7b',
+          sub: confLoss >= 0 ? 'lost this week' : 'gained this week', prov: false },
+      ];
+    }
+
+    document.getElementById('summaryGrid').innerHTML = cards.map(c => `
+      <div class="summary-card ${c.prov ? 'prov-card' : ''}">
+        <div class="accent-bar" style="background:${c.color}"></div>
+        <div class="s-label">${c.label}</div>
+        <div class="s-value" style="color:${c.color}">${c.value}</div>
+        ${c.sub ? `<div class="s-sub">${c.sub}</div>` : ''}
+      </div>`).join('');
+
+    renderAllTime();
+  }
+
+  function renderAllTime() {
+    let confNet = 0, totalWithProv = 0, anyProv = false;
+    Object.keys(state.weeks).forEach(wk => {
+      Object.values(state.weeks[wk]).forEach(d => {
+        const net = (parseFloat(d.burned)||0) - (parseFloat(d.eaten)||0);
+        if (d.provisional) { anyProv = true; totalWithProv += net; }
+        else { confNet += net; totalWithProv += net; }
+      });
+    });
+
+    const confLoss = confNet * 0.00013;
+    const totalLoss = totalWithProv * 0.00013;
+
+    document.getElementById('allTimeKg').innerHTML =
+      `${Math.abs(confLoss).toFixed(2)}<span class="big-unit">kg</span>`;
+    document.getElementById('allTimeLabel').textContent =
+      confLoss >= 0 ? 'total lost' : 'total gained';
+    document.getElementById('allTimeNet').textContent = `${confNet.toFixed(0)} kcal`;
+
+    const provRow = document.getElementById('provStatRow');
+    if (anyProv) {
+      provRow.style.display = 'flex';
+      document.getElementById('allTimeNetProv').textContent =
+        `${totalWithProv.toFixed(0)} kcal → ${Math.abs(totalLoss).toFixed(2)} kg`;
+    } else {
+      provRow.style.display = 'none';
+    }
+
+    const sortedWeeks = Object.keys(state.weeks).sort();
+    const historyEl = document.getElementById('weekHistory');
+    if (sortedWeeks.length === 0) {
+      historyEl.innerHTML = '<div class="empty-state">No data yet — start logging!</div>';
       return;
     }
-    filtered.forEach(function(h){ list.appendChild(buildCard(h)); });
+
+    historyEl.innerHTML = sortedWeeks.map(wk => {
+      let cE=0, cB=0, pE=0, pB=0, hasProv=false;
+      Object.values(state.weeks[wk]).forEach(d => {
+        if (d.provisional) { pE += parseFloat(d.eaten)||0; pB += parseFloat(d.burned)||0; hasProv=true; }
+        else { cE += parseFloat(d.eaten)||0; cB += parseFloat(d.burned)||0; }
+      });
+      const net = cB - cE;
+      const totalNet = net + (pB - pE);
+      const loss = net * 0.00013;
+      const isActive = wk === state.activeWeek;
+      const nc = net >= 0 ? '#7ce08a' : '#e07b7b';
+      const lc = loss >= 0 ? '#7ce08a' : '#e07b7b';
+      return `
+        <div class="week-history-row ${isActive?'active':''} ${hasProv?'has-prov':''}" onclick="jumpToWeek('${wk}')">
+          <div>
+            <div class="whr-label">${formatWeekLabel(wk)}</div>
+            <div class="whr-net" style="color:${nc}">${net>=0?'+':''}${net.toFixed(0)} kcal</div>
+            ${hasProv ? `<div class="whr-prov">⚡ proj: ${totalNet>=0?'+':''}${totalNet.toFixed(0)} kcal</div>` : ''}
+          </div>
+          <div class="whr-loss" style="color:${lc}">${loss>=0?'-':'+'}${Math.abs(loss).toFixed(3)} kg</div>
+        </div>`;
+    }).join('');
   }
 
-  // ── Audit summary ──
-  function buildAuditSummary(oldH, newName, newUrl, newPrice, newNotes, newAddedBy) {
-    var changes=[];
-    if (oldH.name!==newName) changes.push('renamed to <strong>'+newName+'</strong>');
-    if (String(oldH.price)!==String(newPrice)) changes.push('price changed to <strong>'+formatPrice(newPrice)+'</strong>');
-    if (oldH.url!==newUrl) changes.push('link updated');
-    if ((oldH.notes||'')!==newNotes) changes.push('notes updated');
-    if (oldH.addedBy!==newAddedBy) changes.push('attribution changed to <strong>'+(newAddedBy==='grace'?'Grace':'Mum')+'</strong>');
-    return changes.length>0 ? 'edited: '+changes.join(', ') : 'made a minor edit';
+  function switchTab(tab) {
+    document.querySelectorAll('.tab').forEach((t,i) => {
+      t.classList.toggle('active', (i===0&&tab==='weekly')||(i===1&&tab==='alltime'));
+    });
+    document.getElementById('page-weekly').classList.toggle('active', tab==='weekly');
+    document.getElementById('page-alltime').classList.toggle('active', tab==='alltime');
+    if (tab==='alltime') renderAllTime();
   }
 
-  // ── Delete ──
-  var pendingDeleteKey=null;
-  function openConfirm(key){ pendingDeleteKey=key; document.getElementById('confirm-overlay').classList.add('open'); }
-  function closeConfirm(){ pendingDeleteKey=null; document.getElementById('confirm-overlay').classList.remove('open'); }
-  document.getElementById('confirm-no').addEventListener('click',closeConfirm);
-  document.getElementById('confirm-overlay').addEventListener('click',function(e){ if(e.target===this)closeConfirm(); });
-  document.getElementById('confirm-yes').addEventListener('click',async function(){
-    if(!pendingDeleteKey)return;
-    await remove(ref(db,'houses/'+pendingDeleteKey));
-    closeConfirm();
-  });
-
-  // ── Reduced toggle in edit modal ──
-  document.getElementById('reduced-toggle-row').addEventListener('click', function() {
-    reducedOn = !reducedOn;
-    var row = document.getElementById('reduced-toggle-row');
-    var sw  = document.getElementById('reduced-toggle-switch');
-    var wrap = document.getElementById('reduced-new-price-wrap');
-    row.classList.toggle('active', reducedOn);
-    sw.classList.toggle('on', reducedOn);
-    wrap.classList.toggle('show', reducedOn);
-    if (reducedOn) {
-      document.getElementById('ef-reduced-price').value = '';
-      document.getElementById('eerr-reduced-price').classList.remove('show');
-    }
-  });
-
-  // ── Edit modal ──
-  function openEditModal(key) {
-    var house = houses.find(function(h){ return h._firebaseKey===key; });
-    if (!house) return;
-    editingKey = key;
-    reducedOn = false;
-    document.getElementById('ef-name').value  = house.name  || '';
-    document.getElementById('ef-url').value   = house.url   || '';
-    document.getElementById('ef-price').value = house.price || '';
-    document.getElementById('ef-notes').value = house.notes || '';
-    document.getElementById('ef-reduced-price').value = '';
-    document.getElementById('reduced-toggle-row').classList.remove('active');
-    document.getElementById('reduced-toggle-switch').classList.remove('on');
-    document.getElementById('reduced-new-price-wrap').classList.remove('show');
-    document.getElementById('eerr-reduced-price').classList.remove('show');
-    ['ef-name','ef-url','ef-price'].forEach(function(id){
-      document.getElementById(id).classList.remove('error');
-      document.getElementById('eerr-'+id.replace('ef-','')).classList.remove('show');
-    });
-    selectEditWho(house.addedBy||'grace');
-    var editModal = document.querySelector('#edit-overlay .modal');
-    editModal.scrollTop = 0;
-    document.getElementById('edit-overlay').classList.add('open');
-  }
-  function closeEditModal(){ editingKey=null; document.getElementById('edit-overlay').classList.remove('open'); }
-  document.getElementById('edit-cancel-btn').addEventListener('click',closeEditModal);
-  document.getElementById('edit-overlay').addEventListener('click',function(e){ if(e.target===this)closeEditModal(); });
-
-  function selectEditWho(who){
-    editWho=who;
-    document.getElementById('eopt-grace').className='who-opt'+(who==='grace'?' sel-grace':'');
-    document.getElementById('eopt-mum').className='who-opt'+(who==='mum'?' sel-mum':'');
-  }
-  document.getElementById('eopt-grace').addEventListener('click',function(){ selectEditWho('grace'); });
-  document.getElementById('eopt-mum').addEventListener('click',  function(){ selectEditWho('mum'); });
-
-  ['ef-name','ef-url'].forEach(function(id){
-    document.getElementById(id).addEventListener('input',function(){
-      this.classList.remove('error');
-      document.getElementById('eerr-'+id.replace('ef-','')).classList.remove('show');
-    });
-  });
-  document.getElementById('ef-reduced-price').addEventListener('input',function(){
-    document.getElementById('eerr-reduced-price').classList.remove('show');
-  });
-
-  document.getElementById('edit-submit-btn').addEventListener('click', async function() {
-    var name  = document.getElementById('ef-name').value.trim();
-    var url   = document.getElementById('ef-url').value.trim();
-    var price = document.getElementById('ef-price').value.trim();
-    var notes = document.getElementById('ef-notes').value.trim();
-    var reducedPrice = document.getElementById('ef-reduced-price').value.trim();
-
-    var valid=true;
-    if (!name)  { document.getElementById('ef-name').classList.add('error');  document.getElementById('eerr-name').classList.add('show');  valid=false; }
-    if (!url)   { document.getElementById('ef-url').classList.add('error');   document.getElementById('eerr-url').classList.add('show');   valid=false; }
-    if (reducedOn && !reducedPrice) { document.getElementById('ef-reduced-price').classList.add('error'); document.getElementById('eerr-reduced-price').classList.add('show'); valid=false; }
-    if (!valid) return;
-
-    var btn = document.getElementById('edit-submit-btn');
-    btn.disabled=true; btn.textContent='Saving…';
-
-    var house = houses.find(function(h){ return h._firebaseKey===editingKey; });
-
-    // If reduced toggle is on, override price with the new reduced price
-    var finalPrice = reducedOn ? reducedPrice : price;
-
-    var summary = buildAuditSummary(house, name, url, finalPrice, notes, editWho);
-    if (reducedOn) summary = 'marked price reduced from <strong>'+formatPrice(price)+'</strong> to <strong>'+formatPrice(reducedPrice)+'</strong>';
-
-    var imageUrl = house.imageUrl||null;
-    if (url!==house.url) {
-      try {
-        var res=await fetch('https://api.microlink.io/?url='+encodeURIComponent(url)+'&meta=true');
-        var data=await res.json();
-        imageUrl=(data&&data.data&&data.data.image&&data.data.image.url)||null;
-      } catch(e){}
-    }
-
-    var auditEntry = { by: editWho, summary: summary, at: new Date().toISOString(), type: reducedOn ? 'reduction' : 'edit' };
-
-    var updates = { name:name, url:url, price:finalPrice, notes:notes, addedBy:editWho, imageUrl:imageUrl, secret:APP_SECRET };
-    if (reducedOn) {
-      updates.reduced = true;
-      updates.previousPrice = price; // store the pre-reduction price for display on card
-    }
-
-    await update(ref(db,'houses/'+editingKey), updates);
-    await push(ref(db,'houses/'+editingKey+'/auditLog'), auditEntry);
-
-    btn.disabled=false; btn.textContent='Save Changes';
-    closeEditModal();
-  });
-
-  // ── Card actions ──
-  document.getElementById('list').addEventListener('click', async function(e) {
-    var btn = e.target.closest('[data-action]');
-    if (!btn) return;
-    var key=btn.getAttribute('data-key'), action=btn.getAttribute('data-action');
-    if (action==='delete') {
-      openConfirm(key);
-    } else if (action==='edit') {
-      openEditModal(key);
-    } else if (action==='sold') {
-      var house=houses.find(function(h){ return h._firebaseKey===key; });
-      if(!house)return;
-      await update(ref(db,'houses/'+key),{sold:!house.sold,secret:APP_SECRET});
-    } else if (action==='fav') {
-      var house=houses.find(function(h){ return h._firebaseKey===key; });
-      if(!house)return;
-      await update(ref(db,'houses/'+key),{favourite:!house.favourite,secret:APP_SECRET});
-    }
-  });
-
-  // ── Filters ──
-  document.querySelector('.filters').addEventListener('click', function(e) {
-    var btn=e.target.closest('.chip'); if(!btn)return;
-    document.querySelectorAll('.chip').forEach(function(c){ c.classList.remove('active'); });
-    btn.classList.add('active');
-    activeFilter=btn.getAttribute('data-filter');
-    render(); scrollToTop();
-  });
-
-  // ── Add modal ──
-  document.getElementById('open-btn').addEventListener('click',function(){
-    document.getElementById('f-name').value='';
-    document.getElementById('f-url').value='';
-    document.getElementById('f-price').value='';
-    document.getElementById('f-notes').value='';
-    ['f-name','f-url','f-price'].forEach(function(id){
-      document.getElementById(id).classList.remove('error');
-      document.getElementById('err-'+id.replace('f-','')).classList.remove('show');
-    });
-    selectWho('grace');
-    document.getElementById('overlay').classList.add('open');
-  });
-  function closeModal(){ document.getElementById('overlay').classList.remove('open'); }
-  document.getElementById('cancel-btn').addEventListener('click',closeModal);
-  document.getElementById('overlay').addEventListener('click',function(e){ if(e.target===this)closeModal(); });
-
-  function selectWho(who){
-    selectedWho=who;
-    document.getElementById('opt-grace').className='who-opt'+(who==='grace'?' sel-grace':'');
-    document.getElementById('opt-mum').className='who-opt'+(who==='mum'?' sel-mum':'');
-  }
-  document.getElementById('opt-grace').addEventListener('click',function(){ selectWho('grace'); });
-  document.getElementById('opt-mum').addEventListener('click',  function(){ selectWho('mum'); });
-  ['f-name','f-url','f-price'].forEach(function(id){
-    document.getElementById(id).addEventListener('input',function(){
-      this.classList.remove('error');
-      document.getElementById('err-'+id.replace('f-','')).classList.remove('show');
-    });
-  });
-
-  document.getElementById('submit-btn').addEventListener('click', async function() {
-    var name=document.getElementById('f-name').value.trim();
-    var url=document.getElementById('f-url').value.trim();
-    var price=document.getElementById('f-price').value.trim();
-    var notes=document.getElementById('f-notes').value.trim();
-    var valid=true;
-    if(!name)  { document.getElementById('f-name').classList.add('error');  document.getElementById('err-name').classList.add('show');  valid=false; }
-    if(!url)   { document.getElementById('f-url').classList.add('error');   document.getElementById('err-url').classList.add('show');   valid=false; }
-    if(!price) { document.getElementById('f-price').classList.add('error'); document.getElementById('err-price').classList.add('show'); valid=false; }
-    if(!valid) return;
-
-    var btn=document.getElementById('submit-btn');
-    btn.disabled=true; btn.textContent='Adding\u2026';
-
-    var imageUrl=null;
-    try {
-      var res=await fetch('https://api.microlink.io/?url='+encodeURIComponent(url)+'&meta=true');
-      var data=await res.json();
-      imageUrl=(data&&data.data&&data.data.image&&data.data.image.url)||null;
-    } catch(e){}
-
-    await push(houseRef,{
-      name:name, url:url, price:price, addedBy:selectedWho, notes:notes,
-      imageUrl:imageUrl, addedAt:new Date().toISOString(),
-      sold:false, favourite:false, reduced:false, secret:APP_SECRET
-    });
-
-    btn.disabled=false; btn.textContent='Add Property \uD83C\uDFE1';
-    closeModal(); scrollToTop();
-  });
-
+  load();
 </script>
 
 </body>

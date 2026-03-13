@@ -663,27 +663,39 @@ header {
       else if (isProv) cardClass += ' provisional';
       else if (future) cardClass += ' future';
 
+      // Inline card border style to force Safari to apply it
+      let cardInlineStyle = '';
+      if (today && !isProv) cardInlineStyle = 'border: 2px solid #7ce08a !important; background: #0d1610;';
+      else if (isProv) cardInlineStyle = 'border: 2px dashed #e0b85a; background: #131208;';
+      else if (future) cardInlineStyle = 'border: 1.5px dashed #e0b85a55; background: #111210;';
+
       let netClass = 'day-net' + (isProv ? ' prov-net' : net > 0 ? ' positive' : net < 0 ? ' negative' : '');
       const netText = net !== 0 ? `${net > 0 ? '+' : ''}${net.toFixed(0)} kcal` : '—';
 
       let badge = '';
-      if (today) badge = '<span class="today-dot"></span>';
-      else if (isProv) badge = '<span class="provisional-badge">⚡ Provisional</span>';
-      else if (future) badge = '<span class="future-label">Upcoming</span>';
+      if (today && !isProv) badge = '<span style="width:7px;height:7px;border-radius:50%;background:#7ce08a;display:inline-block;"></span>';
+      else if (isProv) badge = '<span style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#e0b85a;background:#e0b85a18;border:1px solid #e0b85a44;border-radius:4px;padding:2px 6px;">⚡ Provisional</span>';
+      else if (future) badge = '<span style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#555;">Upcoming</span>';
 
       let toggleRow = '';
       if (today || future || isProv) {
+        const btnStyle = isProv
+          ? 'display:inline-flex;align-items:center;gap:8px;background:#2a2010;border:2px solid #e0b85a;border-radius:20px;padding:8px 18px;font-family:inherit;font-size:13px;font-weight:600;color:#e0b85a;cursor:pointer;min-width:80px;justify-content:center;'
+          : 'display:inline-flex;align-items:center;gap:8px;background:#222228;border:2px solid #4a4a55;border-radius:20px;padding:8px 18px;font-family:inherit;font-size:13px;font-weight:600;color:#a0a0b0;cursor:pointer;min-width:80px;justify-content:center;';
+        const dotStyle = isProv
+          ? 'width:9px;height:9px;border-radius:50%;background:#e0b85a;display:inline-block;flex-shrink:0;'
+          : 'width:9px;height:9px;border-radius:50%;background:#555;display:inline-block;flex-shrink:0;';
         toggleRow = `
-          <div class="prov-toggle-row">
-            <span class="prov-toggle-label">Mark as provisional</span>
-            <button class="prov-toggle-btn ${isProv ? 'on' : ''}" onclick="toggleProvisional('${date}')">
-              <span class="toggle-dot"></span>${isProv ? 'On' : 'Off'}
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid #1e1e22;">
+            <span style="font-size:11px;letter-spacing:0.1em;color:#a0a0a8;text-transform:uppercase;">Mark as provisional</span>
+            <button style="${btnStyle}" onclick="toggleProvisional('${date}')">
+              <span style="${dotStyle}"></span>${isProv ? 'On' : 'Off'}
             </button>
           </div>`;
       }
 
       return `
-        <div class="${cardClass}">
+        <div class="${cardClass}" style="${cardInlineStyle}">
           <div class="day-header">
             <div class="day-header-left">
               <span class="day-name">${DAYS[i]}</span>${badge}
